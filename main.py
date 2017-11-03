@@ -127,8 +127,7 @@ joblib.dump(clf, 'nnmodel.pkl')
 #     #     self.data_logger.log(carstate, command)
 #
 #
-#     test_X = [carstate.angle] + list(
-#         carstate.distances_from_edge[0:18])
+#     test_X = [carstate.angle] + list(carstate.distances_from_edge[0:18])
 #
 #     # test_X = [carstate.speed_x, carstate.distance_from_center, carstate.angle] + list(
 #     #     carstate.distances_from_edge[0:18])
@@ -138,20 +137,24 @@ joblib.dump(clf, 'nnmodel.pkl')
 #     test_X = test_X.reshape(1, -1)
 #
 #     linear = joblib.load('./linearmodel.pkl')
-#     linearSTEERING = linear.predict(test_X)
+#     linearSTEERING = linear.predict(test_X)[0, 0]
 #
 #     nn = joblib.load('./nnmodel.pkl')
-#     nnSTEERING = nn.predict(test_X)
+#     nnSTEERING = nn.predict(test_X)[0]
 #
-#     # STEERING
-#     # if (STEERING > 1):
-#     #     STEERING = STEERING * 0.5
-#     #     STEERING = min (STEERING , 1)
-#     # if (STEERING < -1):
-#     #     STEERING = STEERING * 0.5
-#     #     STEERING = max(STEERING, -1)
+#     if (nnSTEERING > 1):
+#         nnSTEERING = nnSTEERING * 0.1
+#         nnSTEERING = min(nnSTEERING, 1)
+#     if (nnSTEERING < -1):
+#         nnSTEERING = nnSTEERING * 0.1
+#         nnSTEERING = max(nnSTEERING, -1)
 #
-#
+#     if (linearSTEERING > 1):
+#         linearSTEERING = linearSTEERING * 0.1
+#         linearSTEERING = min(linearSTEERING, 1)
+#     if (linearSTEERING < -1):
+#         linearSTEERING = linearSTEERING * 0.1
+#         linearSTEERING = max(linearSTEERING, -1)
 #
 #     # steering_error = 0 - carstate.distance_from_center
 #     # STEERING_DEFAULT = self.steering_ctrl.control(
@@ -159,15 +162,14 @@ joblib.dump(clf, 'nnmodel.pkl')
 #     #     carstate.current_lap_time
 #     # )
 #
-#     if (carstate.distances_from_edge[9] > 100):
+#     if (carstate.distances_from_edge[9] > 150):
 #         command.steering = linearSTEERING
 #     else:
 #         command.steering = nnSTEERING
-#     print(carstate.distances_from_edge[9], linearSTEERING, nnSTEERING)
+#
 #     # command.brake = BRAKE
 #
-#
-#
+#     print(command.steering)
 #
 #     # if (nnSTEERING < 0.9 or nnSTEERING > -0.9 ):
 #     #     command.accelerator = 0.5
@@ -175,6 +177,7 @@ joblib.dump(clf, 'nnmodel.pkl')
 #     # else:
 #     #     command.accelerator = 0
 #     #     command.brake = 0.8
+#
 #
 #
 #     if carstate.rpm > 8000:
@@ -188,12 +191,11 @@ joblib.dump(clf, 'nnmodel.pkl')
 #     if abs(carstate.distance_from_center >= 1):
 #         command.accelerator = 0.3
 #
-#     print(carstate.speed_x)
-#     if (carstate.speed_x > 10):
+#     if (carstate.speed_x > 25):
 #         command.accelerator = 0
 #         command.brake = 0
 #     else:
-#         command.accelerator = 0.5
+#         command.accelerator = 0.8
 #         command.brake = 0
 #
 #     return command
