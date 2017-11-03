@@ -15,9 +15,19 @@ import pandas as pd
 from sklearn.externals import joblib
 
 
-datafile = 'aalborg.csv'
+datafile1 = 'aalborg.csv'
+datafile2 = 'alpine-1.csv'
+datafile3 = 'f-speedway.csv'
 mypath = './train_data/'
-data = pd.read_csv( mypath + datafile)
+
+data1 = pd.read_csv( mypath + datafile1)
+data2 = pd.read_csv( mypath + datafile2)
+data3 = pd.read_csv( mypath + datafile3)
+
+data = pd.concat([data1,data2,data3])
+
+
+
 data.dropna(axis=0,inplace=True)
 # print(list(data.head()))
 Y = data[['ACCELERATION','BRAKE','STEERING']]
@@ -25,10 +35,10 @@ X = data[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRA
 
 
 train_X, test_X, train_y, test_y = train_test_split(X,Y,test_size= 0.3,random_state= 42)
-print(list(train_y))
-print(list(test_X))
+# print(list(train_y))
+# print(list(test_X))
 
-clf = MLPRegressor(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(200, 100), random_state=42,verbose = True)
+clf = MLPRegressor(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(500, 200), random_state=42,verbose = False)
 clf.fit(train_X,train_y )
 
 
