@@ -103,3 +103,97 @@ joblib.dump(clf, 'nnmodel.pkl')
 # load with this
 # clf = joblib.load('filename.pkl')
 #   commands to car = clf.predict(input from car sensors)
+
+
+# do this on simulator
+# def drive(self, carstate: State) -> Command:
+#     """
+#     Produces driving command in response to newly received car state.
+#
+#     This is a dummy driving routine, very dumb and not really considering a
+#     lot of inputs. But it will get the car (if not disturbed by other
+#     drivers) successfully driven along the race track.
+#     """
+#     command = Command()
+#     # self.steer(carstate, 0.0, command)
+#
+#     # ACC_LATERAL_MAX = 6400 * 5
+#     # v_x = min(80, math.sqrt(ACC_LATERAL_MAX / abs(command.steering)))
+#     # v_x = 80
+#     #
+#     # self.accelerate(carstate, v_x, command)
+#     #
+#     # if self.data_logger:
+#     #     self.data_logger.log(carstate, command)
+#
+#
+#     test_X = [carstate.angle] + list(
+#         carstate.distances_from_edge[0:18])
+#
+#     # test_X = [carstate.speed_x, carstate.distance_from_center, carstate.angle] + list(
+#     #     carstate.distances_from_edge[0:18])
+#
+#     test_X = np.asarray(test_X)
+#     # print(test_X)
+#     test_X = test_X.reshape(1, -1)
+#
+#     linear = joblib.load('./linearmodel.pkl')
+#     linearSTEERING = linear.predict(test_X)
+#
+#     nn = joblib.load('./nnmodel.pkl')
+#     nnSTEERING = nn.predict(test_X)
+#
+#     # STEERING
+#     # if (STEERING > 1):
+#     #     STEERING = STEERING * 0.5
+#     #     STEERING = min (STEERING , 1)
+#     # if (STEERING < -1):
+#     #     STEERING = STEERING * 0.5
+#     #     STEERING = max(STEERING, -1)
+#
+#
+#
+#     # steering_error = 0 - carstate.distance_from_center
+#     # STEERING_DEFAULT = self.steering_ctrl.control(
+#     #     steering_error,
+#     #     carstate.current_lap_time
+#     # )
+#
+#     if (carstate.distances_from_edge[9] > 100):
+#         command.steering = linearSTEERING
+#     else:
+#         command.steering = nnSTEERING
+#     print(carstate.distances_from_edge[9], linearSTEERING, nnSTEERING)
+#     # command.brake = BRAKE
+#
+#
+#
+#
+#     # if (nnSTEERING < 0.9 or nnSTEERING > -0.9 ):
+#     #     command.accelerator = 0.5
+#     #     command.brake = 0
+#     # else:
+#     #     command.accelerator = 0
+#     #     command.brake = 0.8
+#
+#
+#     if carstate.rpm > 8000:
+#         command.gear = carstate.gear + 1
+#     if carstate.rpm < 2500:
+#         command.gear = carstate.gear - 1
+#
+#     if not command.gear:
+#         command.gear = carstate.gear or 1
+#
+#     if abs(carstate.distance_from_center >= 1):
+#         command.accelerator = 0.3
+#
+#     print(carstate.speed_x)
+#     if (carstate.speed_x > 10):
+#         command.accelerator = 0
+#         command.brake = 0
+#     else:
+#         command.accelerator = 0.5
+#         command.brake = 0
+#
+#     return command
