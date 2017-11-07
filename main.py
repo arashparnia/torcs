@@ -1,6 +1,7 @@
 from pprint import pprint
 
 import numpy
+from matplotlib import pyplot
 from pandas import scatter_matrix
 from pandas.io.parsers import read_csv
 import matplotlib.pyplot as plt
@@ -51,16 +52,16 @@ X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK
 X = X.values.tolist()
 Y = Y.values.tolist()
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.8,random_state= 42)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_state= 42)
 # print(list(train_y))
 
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-# Don't cheat - fit only on training data
-scaler.fit(X_train)
-X_train = scaler.transform(X_train)
-# apply same transformation to test data
-X_test = scaler.transform(X_test)
+# from sklearn.preprocessing import StandardScaler
+# scaler = StandardScaler()
+# # Don't cheat - fit only on training data
+# scaler.fit(X_train)
+# X_train = scaler.transform(X_train)
+# # apply same transformation to test data
+# X_test = scaler.transform(X_test)
 
 # X_train = X_train.values.tolist()
 # Y_train = Y_train.values.tolist()
@@ -77,9 +78,14 @@ X_test = scaler.transform(X_test)
 # print(sess.run(hello))
 # -----------------------------------------------------------
 import keras
+from keras.preprocessing import sequence
+from keras.models import Sequential
+from keras.layers import Dense, Embedding
+from keras.layers import LSTM
+from keras.datasets import imdb
 from keras.models import Sequential
 from keras.layers import Dense, Activation
-from keras.layers import LSTM
+from keras.layers import LSTM,GRU,Reshape,Flatten,TimeDistributed,AveragePooling1D
 # #
 # #
 # # # Simple feed-forward architecture
@@ -94,33 +100,88 @@ from keras.layers import LSTM
 #               optimizer='sgd', metrics=['accuracy'])
 
 
+max_features = 1000
+batch_size = 32
+maxlen = 10
+
+# x_train = sequence.pad_sequences(X_train, maxlen=maxlen)
+# x_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+
+X_train = np.asarray(X_train)
+X_test = np.asarray(X_test)
+Y_train = np.asarray(Y_train)
+Y_test = np.asarray(Y_test)
 
 
-trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-testX = numpy.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+print(len(X_train), 'train sequences')
+print(len(X_test), 'test sequences')
 
-# # create and fit the LSTM network
+# print('Pad sequences (samples x time)')
+# x_train = sequence.pad_sequences(X_train, maxlen=maxlen)
+# x_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+print('x_train shape:', X_train.shape)
+print('x_test shape:', X_test.shape)
+
+
+# sameple  = length of training ,  time steop  = 1 ,  feature = 22
+X_train_3d = X_train.reshape(X_train.shape[0],1,X_train.shape[1])
+X_test_3d = X_test.reshape( X_test.shape[0],1,X_test.shape[1])
+Y_train_3d = Y_train.reshape( Y_train.shape[0],1,Y_train.shape[1])
+
+
+print('Build model...')
+
+# model = keras.layers.RNN(X_train,)
+
+
 model = Sequential()
-model.add(LSTM(4, input_shape=(22,1)))
-model.add(Dense(output_dim=2))
-model.compile(loss='mean_squared_error', optimizer='adam')
+# model.add(keras.layers.RNN(22))
+# # model.add(Dense(22, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+model.add(LSTM(22, return_sequences=False, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# # model.add(LSTM(3,return_sequences=False, input_shape=(22)))
+# # model.add(Dense(3, input_shape=(X_train.shape[1], X_train.shape[2])) )
+# # model.add(Reshape((22, X_train.shape[2]), input_shape=(1,22,)))
+# # model.add(Flatten())
+# # model.output_shape(22,)
+# model.add(Dense(3))
+# model.add(Reshape((X_train_3d.shape[1], X_train_3d.shape[2]), input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+
+# model.add(flat)
+model.compile(loss='mae', optimizer='adam')
+# fit network
+history = model.fit(X_train_3d, Y_train_3d, epochs=50, batch_size=32, validation_data=(X_test, Y_test), verbose=2, shuffle=True)
+# plot history
+pyplot.plot(history.history['loss'], label='train')
+pyplot.plot(history.history['val_loss'], label='test')
+pyplot.legend()
+pyplot.show()
 
 
-# # Fit model in batches
-model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
+# trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+# testX = numpy.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 #
-# keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
-
-# Evaluate model
-loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
-print("-----------------------------")
-print(loss_and_metrics)
-print("-----------------------------")
-
-perd = model.predict(X_test,batch_size=32,verbose=1)
-print(perd)
-
-model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
+# # # create and fit the LSTM network
+# model = Sequential()
+# model.add(LSTM(4, input_shape=(22,1)))
+# model.add(Dense(output_dim=2))
+# model.compile(loss='mean_squared_error', optimizer='adam')
+#
+#
+# # # Fit model in batches
+# model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
+# #
+# # keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
+#
+# # Evaluate model
+# loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
+# print("-----------------------------")
+# print(loss_and_metrics)
+# print("-----------------------------")
+#
+# perd = model.predict(X_test,batch_size=32,verbose=1)
+# print(perd)
+#
+# model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
 
 # -----------------------------------------------------------
 # -----------------------------------------------------------
