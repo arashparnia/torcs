@@ -1,5 +1,6 @@
 from pprint import pprint
 
+import numpy
 from pandas import scatter_matrix
 from pandas.io.parsers import read_csv
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.metrics import accuracy_score
 import numpy as np
 import pandas as pd
-
+import copy
 
 
 from sklearn.externals import joblib
@@ -34,11 +35,11 @@ data = pd.concat([data1,data2])
 # data = data1
 
 
-
-data.dropna(axis=0,inplace=True)
+data  = data.fillna(data.interpolate(),axis=0,inplace=False)
+# data.dropna(axis=0,inplace=True)
 # print(list(data.head()))
-d1 = np.copy.deepcopy(data)
-d2 = np.copy.deepcopy(data)
+d1 = copy.deepcopy(data)
+d2 = copy.deepcopy(data)
 
 Y = d1[['ACCELERATION','BRAKE','STEERING']]
 X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
@@ -61,46 +62,65 @@ X_train = scaler.transform(X_train)
 # apply same transformation to test data
 X_test = scaler.transform(X_test)
 
+# X_train = X_train.values.tolist()
+# Y_train = Y_train.values.tolist()
+#
+# X_test = X_test.values.tolist()
+# Y_test = Y_test.values.tolist()
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+
 # -----------------------------------------------------------
-import tensorflow as tf
-hello = tf.constant('Hello, TensorFlow!')
-sess = tf.Session()
-print(sess.run(hello))
+# import tensorflow as tf
+# hello = tf.constant('Hello, TensorFlow!')
+# sess = tf.Session()
+# print(sess.run(hello))
 # -----------------------------------------------------------
-# import keras
-# from keras.models import Sequential
-# from keras.layers import Dense, Activation
-#
-#
-# # Simple feed-forward architecture
-# model = Sequential()
-#
-# model.add(Dense(output_dim=64, input_dim=22))
-# model.add(Activation("relu"))
-# model.add(Dense(output_dim=2))
-# model.add(Activation("softmax"))
-#
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+from keras.layers import LSTM
+# #
+# #
+# # # Simple feed-forward architecture
+# # model = Sequential()
+# # model.add(Dense(output_dim=64, input_dim=22))
+# # model.add(Activation("relu"))
+# # model.add(Dense(output_dim=2))
+# # model.add(Activation("softmax"))
+# #
 # # Optimize with SGD
 # model.compile(loss='categorical_crossentropy',
 #               optimizer='sgd', metrics=['accuracy'])
-#
+
+
+
+
+trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+testX = numpy.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+
+# # create and fit the LSTM network
+model = Sequential()
+model.add(LSTM(4, input_shape=(22,1)))
+model.add(Dense(output_dim=2))
+model.compile(loss='mean_squared_error', optimizer='adam')
+
+
 # # Fit model in batches
-# model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
-# #
-# # keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
+model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
 #
-# # Evaluate model
-# loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
-# print("-----------------------------")
-# print(loss_and_metrics)
-# print("-----------------------------")
-#
-# perd = model.predict(X_test,batch_size=32,verbose=1)
-# print(perd)
-#
-# model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
+# keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
+
+# Evaluate model
+loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
+print("-----------------------------")
+print(loss_and_metrics)
+print("-----------------------------")
+
+perd = model.predict(X_test,batch_size=32,verbose=1)
+print(perd)
+
+model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
 
 # -----------------------------------------------------------
 # -----------------------------------------------------------
@@ -108,24 +128,24 @@ print(sess.run(hello))
 # -----------------------------------------------------------
 
 
-clf = MLPRegressor(solver='adam', alpha=1e-5, hidden_layer_sizes=(5, 100), random_state=42,verbose = False,warm_start=False,learning_rate='adaptive',activation='logistic')
+# clf = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(5, 100), random_state=42,verbose = False,warm_start=False,learning_rate='adaptive',activation='tanh')
 #
 # # clf = linear_model.LinearRegression()
-clf.fit(X_train,Y_train )
+# clf.fit(X_train,Y_train )
 #
 #
-pred_y =  clf.predict(X_test)
+# pred_y =  clf.predict(X_test)
 #
-pred_y = pd.DataFrame(pred_y)
-print(pred_y.head())
-print(Y_test.head())
+# pred_y = pd.DataFrame(pred_y)
+# print(pred_y.head())
+# print(Y_test.head())
 #
 # print(accuracy_score(Y_test,pred_y,normalize=False))
-kfold = model_selection.KFold(n_splits=10,random_state=42)
-scoring = "neg_mean_absolute_error"
-results = model_selection.cross_val_score(clf,X,Y,cv=kfold,scoring=scoring)
-print("-----------------------------")
-print(results.mean(),results.std())
+# kfold = model_selection.KFold(n_splits=10,random_state=42)
+# scoring = "neg_mean_absolute_error"
+# results = model_selection.cross_val_score(clf,X,Y,cv=kfold,scoring=scoring)
+# print("-----------------------------")
+# print(results.mean(),results.std())
 #
 # print(pred_y)
 # print(min(pred_y) ,pred_y, max(pred_y))
@@ -163,7 +183,7 @@ print(results.mean(),results.std())
 #
 # plt.show()
 
-joblib.dump(clf, 'nnmodel.pkl')
+# joblib.dump(clf, 'nnmodel.pkl')
 
 # load with this
 # clf = joblib.load('filename.pkl')

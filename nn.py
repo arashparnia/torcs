@@ -61,18 +61,18 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.8,random_st
 # -----------------------------------------------------------
 
 
-xor_inputs = X_train.values.tolist()
-xor_outputs = Y_train.values.tolist()
+inputs = X_train.values.tolist()
+outputs = Y_train.values.tolist()
 # -----------------------------------------------------------
 
 print("--------------------------------------------------------------------------------------------------------------------")
 def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
-        genome.fitness = 4.0
+        genome.fitness = -1000
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        for xi, xo in zip((xor_inputs), (xor_outputs)):
-            output = net.activate(xi)
-            genome.fitness -= ( (output[0] - xo[0])   + (output[1] - xo[1]) + (output[2] - xo[2]) )
+        for i, o in zip((inputs), (outputs)):
+            output = net.activate(i)
+            genome.fitness -= (  abs(o[0] - output[0])   + abs(o[1] - output[1]) + abs(o[2] - output[2]) )
 
 
 def run(config_file):
@@ -83,12 +83,13 @@ def run(config_file):
 
     # Create the population, which is the top-level object for a NEAT run.
     p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-115')
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(1))
+    p.add_reporter(neat.Checkpointer(0))
 
     # Run for up to 300 generations.
     winner = p.run(eval_genomes, 10000000)
@@ -97,19 +98,19 @@ def run(config_file):
     print('\nBest genome:\n{!s}'.format(winner))
 
     # Show output of the most fit genome against training data.
-    # print('\nOutput:')
-    # winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-    # for xi, xo in zip(xor_inputs, xor_outputs):
-    #     output = winner_net.activate(xi)
-    #     print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
+    print('\nOutput:')
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    for i, o in zip(inputs, outputs):
+        output = winner_net.activate(i)
+        print("input {!r}, expected output {!r}, got {!r}".format(i, o, output))
 
     node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
     visualize.draw_net(config, winner, True, node_names=node_names)
     visualize.plot_stats(stats, ylog=True, view=True)
     visualize.plot_species(stats, view=True)
 
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    # p.run(eval_genomes, 1000)
+
+    # p.run(eval_genomes, 1)
 
 
 if __name__ == '__main__':
