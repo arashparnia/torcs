@@ -112,49 +112,102 @@ X_test = np.asarray(X_test)
 Y_train = np.asarray(Y_train)
 Y_test = np.asarray(Y_test)
 
-
-print(len(X_train), 'train sequences')
-print(len(X_test), 'test sequences')
+#
+# print(len(X_train), 'train sequences')
+# print(len(X_test), 'test sequences')
 
 # print('Pad sequences (samples x time)')
 # x_train = sequence.pad_sequences(X_train, maxlen=maxlen)
 # x_test = sequence.pad_sequences(X_test, maxlen=maxlen)
-print('x_train shape:', X_train.shape)
-print('x_test shape:', X_test.shape)
+# print('x_train shape:', X_train.shape)
+# print('x_test shape:', X_test.shape)
 
 
 # sameple  = length of training ,  time steop  = 1 ,  feature = 22
-X_train_3d = X_train.reshape(X_train.shape[0],1,X_train.shape[1])
-X_test_3d = X_test.reshape( X_test.shape[0],1,X_test.shape[1])
-Y_train_3d = Y_train.reshape( Y_train.shape[0],1,Y_train.shape[1])
+# X_train_3d = X_train.reshape(X_train.shape[0],1,X_train.shape[1])
+# X_test_3d = X_test.reshape( X_test.shape[0],1,X_test.shape[1])
+# Y_train_3d = Y_train.reshape( Y_train.shape[0],1,Y_train.shape[1])
 
 
 print('Build model...')
 
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+
+
+
+import neurolab as nl
+import numpy as np
+
+# # Create train samples
+# i1 = np.sin(np.arange(0, 20))
+# i2 = np.sin(np.arange(0, 20)) * 2
+#
+# t1 = np.ones([1, 20])
+# t2 = np.ones([1, 20]) * 2
+#
+# input = np.array([i1, i2, i1, i2]).reshape(20 * 4, 1)
+# target = np.array([t1, t2, t1, t2]).reshape(20 * 4, 1)
+input = X_train
+target = Y_train
+
+# Create network with 2 layers
+net = nl.net.newelm([[-1, 1]], [22, 3], [nl.trans.TanSig(), nl.trans.PureLin()])
+# Set initialized functions and init
+net.layers[0].initf = nl.init.InitRand([-0.1, 0.1], 'wb')
+net.layers[1].initf= nl.init.InitRand([-0.1, 0.1], 'wb')
+net.init()
+# Train network
+error = net.train(input, target, epochs=500, show=100, goal=0.01)
+# Simulate network
+output = net.sim(input)
+
+# Plot result
+import pylab as pl
+pl.subplot(211)
+pl.plot(error)
+pl.xlabel('Epoch number')
+pl.ylabel('Train error (default MSE)')
+
+pl.subplot(212)
+pl.plot(target.reshape(80))
+pl.plot(output.reshape(80))
+pl.legend(['train target', 'net output'])
+pl.show()
+
+
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+
+
 # model = keras.layers.RNN(X_train,)
 
 
-model = Sequential()
-# model.add(keras.layers.RNN(22))
-# # model.add(Dense(22, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-model.add(LSTM(22, return_sequences=False, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-# # model.add(LSTM(3,return_sequences=False, input_shape=(22)))
-# # model.add(Dense(3, input_shape=(X_train.shape[1], X_train.shape[2])) )
-# # model.add(Reshape((22, X_train.shape[2]), input_shape=(1,22,)))
-# # model.add(Flatten())
-# # model.output_shape(22,)
-# model.add(Dense(3))
-# model.add(Reshape((X_train_3d.shape[1], X_train_3d.shape[2]), input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-
-# model.add(flat)
-model.compile(loss='mae', optimizer='adam')
-# fit network
-history = model.fit(X_train_3d, Y_train_3d, epochs=50, batch_size=32, validation_data=(X_test, Y_test), verbose=2, shuffle=True)
-# plot history
-pyplot.plot(history.history['loss'], label='train')
-pyplot.plot(history.history['val_loss'], label='test')
-pyplot.legend()
-pyplot.show()
+# model = Sequential()
+# # model.add(keras.layers.RNN(22))
+# # # model.add(Dense(22, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# model.add(LSTM(22, return_sequences=False, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# # # model.add(LSTM(3,return_sequences=False, input_shape=(22)))
+# # # model.add(Dense(3, input_shape=(X_train.shape[1], X_train.shape[2])) )
+# # # model.add(Reshape((22, X_train.shape[2]), input_shape=(1,22,)))
+# # # model.add(Flatten())
+# # # model.output_shape(22,)
+# # model.add(Dense(3))
+# # model.add(Reshape((X_train_3d.shape[1], X_train_3d.shape[2]), input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+#
+# # model.add(flat)
+# model.compile(loss='mae', optimizer='adam')
+# # fit network
+# history = model.fit(X_train_3d, Y_train_3d, epochs=50, batch_size=32, validation_data=(X_test, Y_test), verbose=2, shuffle=True)
+# # plot history
+# pyplot.plot(history.history['loss'], label='train')
+# pyplot.plot(history.history['val_loss'], label='test')
+# pyplot.legend()
+# pyplot.show()
 
 
 # trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
@@ -483,3 +536,4 @@ pyplot.show()
 #     # wheel_velocities: (-89.14764925999505, 0.4694283322552494, 63.65331920785393, 293.37788237658185)
 #     # focused_distances_from_edge: (-1.0, -1.0, -1.0, -1.0, -1.0)
 #     # gear: 1
+
