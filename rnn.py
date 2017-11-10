@@ -86,6 +86,13 @@ Y_train = np.array(Y_train)
 X_test = np.array(X_test)
 Y_test = np.array(Y_test)
 
+# from sklearn.preprocessing import StandardScaler
+# scaler = StandardScaler()
+# # Don't cheat - fit only on training data
+# scaler.fit(X_train)
+# X_train = scaler.transform(X_train)
+# # apply same transformation to test data
+# X_test = scaler.transform(X_test)
 
 
 # X_train = X_train.reshape(1,-1)
@@ -101,9 +108,10 @@ Y_test = Y_test.transpose()
 print(X_train.shape)
 print(Y_train.shape)
 
+
 # print(ESN)
-# esn = ESN.ESN(n_inputs = 2,
-#           n_outputs = 1,
+# esn = ESN.ESN(n_inputs = 22,
+#           n_outputs = 3,
 #           n_reservoir = 10,
 #           spectral_radius = 0.25,
 #           sparsity = 0.95,
@@ -125,19 +133,12 @@ print(Y_train.shape)
 # pred_test = esn.predict(X_test)
 # print(np.sqrt(np.mean((pred_test - Y_test)**2)))
 
+#====================================================================================================================
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
 import pyrenn as prn
-
-###
-#Read Example Data
-# df = pd.ExcelFile('example_data.xlsx').parse('friction')
-# P = df.loc[0:40]['P'].values
-# Y = df.loc[0:40]['Y'].values
-# Ptest = df['Ptest'].values
-# Ytest = df['Ytest'].values
-
 
 P = X_train
 Y = Y_train
@@ -151,7 +152,7 @@ Ytest = Y_test
 #the NN has a recurrent connection with delay of 1 timestep in the hidden
 # layers and a recurrent connection with delay of 1 and 2 timesteps from the output
 # to the first layer
-net = prn.CreateNN([22,2,2,3],dIn=[0],dIntern=[1],dOut=[1,2])
+net = prn.CreateNN([22,22,22,3],dIn=[0],dIntern=[],dOut=[1])
 
 #Train NN with training data P=input and Y=target
 #Set maximum number of iterations k_max to 100
