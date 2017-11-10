@@ -58,12 +58,13 @@ data = pd.concat([data3,data2,data1])
 
 
 data  = data.fillna(data.interpolate(),axis=0,inplace=False)
+data.dropna(axis=0,inplace=True)
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
-# Y = pd.DataFrame(d1[['ACCELERATION','BRAKE','STEERING']])
-Y = pd.DataFrame(d1[['STEERING']])
-X = pd.DataFrame(d2[['TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS']])
-# X = pd.DataFrame(d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']])
+Y = pd.DataFrame(d1[['ACCELERATION','BRAKE','STEERING']])
+# Y = pd.DataFrame(d1[['STEERING']])
+# X = pd.DataFrame(d2[['TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS']])
+X = pd.DataFrame(d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']])
 
 
 # X = X.values.tolist()
@@ -74,73 +75,120 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_st
 
 rng = np.random.RandomState(42)
 
-def frequency_generator(N,min_period,max_period,n_changepoints):
-    """returns a random step function with N changepoints
-       and a sine wave signal that changes its frequency at
-       each such step, in the limits given by min_ and max_period."""
-    # vector of random indices < N, padded with 0 and N at the ends:
-    changepoints = np.insert(np.sort(rng.randint(0,N,n_changepoints)),[0,n_changepoints],[0,N])
-    # list of interval boundaries between which the control sequence should be constant:
-    const_intervals = list(zip(changepoints,np.roll(changepoints,-1)))[:-1]
-    # populate a control sequence
-    frequency_control = np.zeros((N,1))
-    for (t0,t1) in const_intervals:
-        frequency_control[t0:t1] = rng.rand()
-    periods = frequency_control * (max_period - min_period) + max_period
-    # run time through a sine, while changing the period length
-    frequency_output = np.zeros((N,1))
-    z = 0
-    for i in range(N):
-        z = z + 2 * np.pi / periods[i]
-        frequency_output[i] = (np.sin(z) + 1)/2
-    return np.hstack([np.ones((N,1)),1-frequency_control]),frequency_output
-
-
-N = 15000 # signal length
-min_period = 2
-max_period = 10
-n_changepoints = int(N/200)
-frequency_control,frequency_output = frequency_generator(N,min_period,max_period,n_changepoints)
-
-traintest_cutoff = int(np.ceil(0.7*N))
-
-train_ctrl,train_output = frequency_control[:traintest_cutoff],frequency_output[:traintest_cutoff]
-test_ctrl, test_output  = frequency_control[traintest_cutoff:],frequency_output[traintest_cutoff:]
-
-print(type(train_ctrl))
-# print(train_output)
 
 
 # os._exit()
-rng = np.random.RandomState(42)
-print(X_train.shape)
-print(Y_train.shape)
+
+
 
 X_train = np.array(X_train)
 Y_train = np.array(Y_train)
-
-print(ESN)
-esn = ESN.ESN(n_inputs = 2,
-          n_outputs = 1,
-          n_reservoir = 200,
-          spectral_radius = 0.25,
-          sparsity = 0.95,
-          noise = 0.001,
-          input_shift = [0,0],
-          input_scaling = [0.01, 3],
-          teacher_scaling = 1.12,
-          teacher_shift = -0.7,
-          out_activation = np.tanh,
-          inverse_out_activation = np.arctanh,
-          random_state = rng,
-          silent = False)
+X_test = np.array(X_test)
+Y_test = np.array(Y_test)
 
 
 
-pred_train = esn.fit(X_train,Y_train)
+# X_train = X_train.reshape(1,-1)
+# Y_train = Y_train.reshape(1,-1)
+# X_test = X_test.reshape(1,-1)
+# Y_test = Y_test.reshape(1,-1)
 
-print("test error:")
-pred_test = esn.predict(X_test)
-print(np.sqrt(np.mean((pred_test - Y_test)**2)))
+X_train = X_train.transpose()
+Y_train = Y_train.transpose()
+X_test = X_test.transpose()
+Y_test = Y_test.transpose()
 
+print(X_train.shape)
+print(Y_train.shape)
+
+# print(ESN)
+# esn = ESN.ESN(n_inputs = 2,
+#           n_outputs = 1,
+#           n_reservoir = 10,
+#           spectral_radius = 0.25,
+#           sparsity = 0.95,
+#           noise = 0.001,
+#           input_shift = [0,0],
+#           input_scaling = [0, 1],
+#           teacher_scaling = 1,
+#           teacher_shift = -1,
+#           out_activation = np.tanh,
+#           inverse_out_activation = np.arctanh,
+#           random_state = rng,
+#           silent = False)
+#
+#
+#
+# pred_train = esn.fit(X_train,Y_train,inspect=False)
+#
+# print("test error:")
+# pred_test = esn.predict(X_test)
+# print(np.sqrt(np.mean((pred_test - Y_test)**2)))
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import pyrenn as prn
+
+###
+#Read Example Data
+# df = pd.ExcelFile('example_data.xlsx').parse('friction')
+# P = df.loc[0:40]['P'].values
+# Y = df.loc[0:40]['Y'].values
+# Ptest = df['Ptest'].values
+# Ytest = df['Ytest'].values
+
+
+P = X_train
+Y = Y_train
+Ptest = X_test
+Ytest = Y_test
+###
+#Create and train NN
+
+#create recurrent neural network with 1 input, 2 hidden layers with
+#2 neurons each and 1 output
+#the NN has a recurrent connection with delay of 1 timestep in the hidden
+# layers and a recurrent connection with delay of 1 and 2 timesteps from the output
+# to the first layer
+net = prn.CreateNN([22,2,2,3],dIn=[0],dIntern=[1],dOut=[1,2])
+
+#Train NN with training data P=input and Y=target
+#Set maximum number of iterations k_max to 100
+#Set termination condition for Error E_stop to 1e-3
+#The Training will stop after 100 iterations or when the Error <=E_stop
+net = prn.train_LM(P,Y,net,verbose=True,k_max=100,E_stop=1e-3)
+
+prn.saveNN(net,"RNNmodel.mdl")
+
+###
+#Calculate outputs of the trained NN for train and test data
+y = prn.NNOut(P,net)
+ytest = prn.NNOut(Ptest,net)
+
+###
+#Plot results
+fig = plt.figure(figsize=(11,7))
+ax0 = fig.add_subplot(211)
+ax1 = fig.add_subplot(212)
+fs=18
+
+#Train Data
+ax0.set_title('Train Data',fontsize=fs)
+ax0.plot(y,color='b',lw=2,label='NN Output')
+ax0.plot(Y,color='r',marker='None',linestyle=':',lw=3,markersize=8,label='Train Data')
+ax0.tick_params(labelsize=fs-2)
+ax0.legend(fontsize=fs-2,loc='upper left')
+ax0.grid()
+
+#Test Data
+ax1.set_title('Test Data',fontsize=fs)
+ax1.plot(ytest,color='b',lw=2,label='NN Output')
+ax1.plot(Ytest,color='r',marker='None',linestyle=':',lw=3,markersize=8,label='Test Data')
+ax1.tick_params(labelsize=fs-2)
+ax1.legend(fontsize=fs-2,loc='upper left')
+ax1.grid()
+
+fig.tight_layout()
+plt.show()
 
