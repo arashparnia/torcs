@@ -61,8 +61,8 @@ data  = data.fillna(data.interpolate(),axis=0,inplace=False)
 data.dropna(axis=0,inplace=True)
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
-Y = pd.DataFrame(d1[['ACCELERATION','BRAKE','STEERING']])
-# Y = pd.DataFrame(d1[['STEERING']])
+# Y = pd.DataFrame(d1[['ACCELERATION','BRAKE','STEERING']])
+Y = pd.DataFrame(d1[['STEERING']])
 # X = pd.DataFrame(d2[['TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS']])
 X = pd.DataFrame(d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']])
 
@@ -145,26 +145,30 @@ Y = Y_train
 Ptest = X_test
 Ytest = Y_test
 ###
-#Create and train NN
-
-#create recurrent neural network with 1 input, 2 hidden layers with
-#2 neurons each and 1 output
-#the NN has a recurrent connection with delay of 1 timestep in the hidden
-# layers and a recurrent connection with delay of 1 and 2 timesteps from the output
-# to the first layer
-net = prn.CreateNN([22,22,22,3],dIn=[0],dIntern=[],dOut=[1])
-
-#Train NN with training data P=input and Y=target
-#Set maximum number of iterations k_max to 100
-#Set termination condition for Error E_stop to 1e-3
-#The Training will stop after 100 iterations or when the Error <=E_stop
-net = prn.train_LM(P,Y,net,verbose=True,k_max=100,E_stop=1e-3)
+# #Create and train NN
+#
+# #create recurrent neural network with 1 input, 2 hidden layers with
+# #2 neurons each and 1 output
+# #the NN has a recurrent connection with delay of 1 timestep in the hidden
+# # layers and a recurrent connection with delay of 1 and 2 timesteps from the output
+# # to the first layer
+net = prn.CreateNN([22,22,1],dIn=[0],dIntern=[],dOut=[1])
+#
+# #Train NN with training data P=input and Y=target
+# #Set maximum number of iterations k_max to 100
+# #Set termination condition for Error E_stop to 1e-3
+# #The Training will stop after 100 iterations or when the Error <=E_stop
+net = prn.train_LM(P,Y,net,verbose=True,k_max=10000,E_stop=1e-3)
 
 prn.saveNN(net,"RNNmodel.mdl")
-
+# print("loading")
+# net = prn.loadNN("RNNmodel.mdl")
+# print("loaded")
 ###
 #Calculate outputs of the trained NN for train and test data
 y = prn.NNOut(P,net)
+# print(y)
+# os._exit(0)
 ytest = prn.NNOut(Ptest,net)
 
 ###
