@@ -30,9 +30,9 @@ mypath = './train_data/'
 
 data1 = pd.read_csv( mypath + datafile1 , index_col=False)
 data2 = pd.read_csv( mypath + datafile2, index_col=False)
-# data3 = pd.read_csv( mypath + datafile3, index_col=False)
+data3 = pd.read_csv( mypath + datafile3, index_col=False)
 
-data = pd.concat([data1,data2])
+data = pd.concat([data1,data2,data3])
 # data = data1
 
 
@@ -43,16 +43,16 @@ d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
 Y = d1[['ACCELERATION','BRAKE','STEERING']]
-X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-# Y = data[['ACCELERATION']]
-# X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
+# X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
+# Y = data[['BRAKE']]
+X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
 
 
 
 X = X.values.tolist()
 Y = Y.values.tolist()
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_state= 42)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
 # print(list(train_y))
 
 # from sklearn.preprocessing import StandardScaler
@@ -77,15 +77,15 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_st
 # sess = tf.Session()
 # print(sess.run(hello))
 # -----------------------------------------------------------
-import keras
-from keras.preprocessing import sequence
-from keras.models import Sequential
-from keras.layers import Dense, Embedding
-from keras.layers import LSTM
-from keras.datasets import imdb
-from keras.models import Sequential
-from keras.layers import Dense, Activation
-from keras.layers import LSTM,GRU,Reshape,Flatten,TimeDistributed,AveragePooling1D
+# import keras
+# from keras.preprocessing import sequence
+# from keras.models import Sequential
+# from keras.layers import Dense, Embedding
+# from keras.layers import LSTM
+# from keras.datasets import imdb
+# from keras.models import Sequential
+# from keras.layers import Dense, Activation
+# from keras.layers import LSTM,GRU,Reshape,Flatten,TimeDistributed,AveragePooling1D
 # #
 # #
 # # # Simple feed-forward architecture
@@ -129,123 +129,27 @@ Y_test = np.asarray(Y_test)
 # Y_train_3d = Y_train.reshape( Y_train.shape[0],1,Y_train.shape[1])
 
 
-print('Build model...')
-
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-
-
-
-import neurolab as nl
-import numpy as np
-
-# # Create train samples
-# i1 = np.sin(np.arange(0, 20))
-# i2 = np.sin(np.arange(0, 20)) * 2
+# print('Build model...')
 #
-# t1 = np.ones([1, 20])
-# t2 = np.ones([1, 20]) * 2
-#
-# input = np.array([i1, i2, i1, i2]).reshape(20 * 4, 1)
-# target = np.array([t1, t2, t1, t2]).reshape(20 * 4, 1)
-input = X_train
-target = Y_train
-
-# Create network with 2 layers
-net = nl.net.newelm([[-1, 1]], [22, 3], [nl.trans.TanSig(), nl.trans.PureLin()])
-# Set initialized functions and init
-net.layers[0].initf = nl.init.InitRand([-0.1, 0.1], 'wb')
-net.layers[1].initf= nl.init.InitRand([-0.1, 0.1], 'wb')
-net.init()
-# Train network
-error = net.train(input, target, epochs=500, show=100, goal=0.01)
-# Simulate network
-output = net.sim(input)
-
-# Plot result
-import pylab as pl
-pl.subplot(211)
-pl.plot(error)
-pl.xlabel('Epoch number')
-pl.ylabel('Train error (default MSE)')
-
-pl.subplot(212)
-pl.plot(target.reshape(80))
-pl.plot(output.reshape(80))
-pl.legend(['train target', 'net output'])
-pl.show()
-
-
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-
-
-# model = keras.layers.RNN(X_train,)
-
-
-# model = Sequential()
-# # model.add(keras.layers.RNN(22))
-# # # model.add(Dense(22, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-# model.add(LSTM(22, return_sequences=False, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-# # # model.add(LSTM(3,return_sequences=False, input_shape=(22)))
-# # # model.add(Dense(3, input_shape=(X_train.shape[1], X_train.shape[2])) )
-# # # model.add(Reshape((22, X_train.shape[2]), input_shape=(1,22,)))
-# # # model.add(Flatten())
-# # # model.output_shape(22,)
-# # model.add(Dense(3))
-# # model.add(Reshape((X_train_3d.shape[1], X_train_3d.shape[2]), input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
-#
-# # model.add(flat)
-# model.compile(loss='mae', optimizer='adam')
-# # fit network
-# history = model.fit(X_train_3d, Y_train_3d, epochs=50, batch_size=32, validation_data=(X_test, Y_test), verbose=2, shuffle=True)
-# # plot history
-# pyplot.plot(history.history['loss'], label='train')
-# pyplot.plot(history.history['val_loss'], label='test')
-# pyplot.legend()
-# pyplot.show()
-
-
-# trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-# testX = numpy.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
-#
-# # # create and fit the LSTM network
-# model = Sequential()
-# model.add(LSTM(4, input_shape=(22,1)))
-# model.add(Dense(output_dim=2))
-# model.compile(loss='mean_squared_error', optimizer='adam')
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
 #
 #
-# # # Fit model in batches
-# model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
-# #
-# # keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
 #
-# # Evaluate model
-# loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
-# print("-----------------------------")
-# print(loss_and_metrics)
-# print("-----------------------------")
-#
-# perd = model.predict(X_test,batch_size=32,verbose=1)
-# print(perd)
-#
-# model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
-
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-# -----------------------------------------------------------
-
-
 # clf = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(5, 100), random_state=42,verbose = False,warm_start=False,learning_rate='adaptive',activation='tanh')
-#
-# # clf = linear_model.LinearRegression()
+# #
+# # # clf = linear_model.LinearRegression()
 # clf.fit(X_train,Y_train )
+#
+# scoring = "neg_mean_absolute_error"
+# kfold = model_selection.KFold(n_splits=10,random_state=42)
+# results = model_selection.cross_val_score(clf,X,Y,cv=kfold,scoring=scoring)
+# print("-----------------------------")
+# print(results.mean(),results.std())
+#
+# joblib.dump(clf, 'nnmodel_brk.pkl')
 #
 #
 # pred_y =  clf.predict(X_test)
@@ -303,7 +207,108 @@ pl.show()
 # clf = joblib.load('filename.pkl')
 #   commands to car = clf.predict(input from car sensors)
 
+# import neurolab as nl
+# import numpy as np
+#
+# # # Create train samples
+# # i1 = np.sin(np.arange(0, 20))
+# # i2 = np.sin(np.arange(0, 20)) * 2
+# #
+# # t1 = np.ones([1, 20])
+# # t2 = np.ones([1, 20]) * 2
+# #
+# # input = np.array([i1, i2, i1, i2]).reshape(20 * 4, 1)
+# # target = np.array([t1, t2, t1, t2]).reshape(20 * 4, 1)
+# input = X_train
+# target = Y_train
+#
+# # Create network with 2 layers
+# net = nl.net.newelm([[-1, 1]], [22, 3], [nl.trans.TanSig(), nl.trans.PureLin()])
+# # Set initialized functions and init
+# net.layers[0].initf = nl.init.InitRand([-0.1, 0.1], 'wb')
+# net.layers[1].initf= nl.init.InitRand([-0.1, 0.1], 'wb')
+# net.init()
+# # Train network
+# error = net.train(input, target, epochs=500, show=100, goal=0.01)
+# # Simulate network
+# output = net.sim(input)
+#
+# # Plot result
+# import pylab as pl
+# pl.subplot(211)
+# pl.plot(error)
+# pl.xlabel('Epoch number')
+# pl.ylabel('Train error (default MSE)')
+#
+# pl.subplot(212)
+# pl.plot(target.reshape(80))
+# pl.plot(output.reshape(80))
+# pl.legend(['train target', 'net output'])
+# pl.show()
+#
+#
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
+# # -----------------------------------------------------------
+#
+#
+# # model = keras.layers.RNN(X_train,)
+#
+#
+# # model = Sequential()
+# # # model.add(keras.layers.RNN(22))
+# # # # model.add(Dense(22, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# # model.add(LSTM(22, return_sequences=False, input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# # # # model.add(LSTM(3,return_sequences=False, input_shape=(22)))
+# # # # model.add(Dense(3, input_shape=(X_train.shape[1], X_train.shape[2])) )
+# # # # model.add(Reshape((22, X_train.shape[2]), input_shape=(1,22,)))
+# # # # model.add(Flatten())
+# # # # model.output_shape(22,)
+# # # model.add(Dense(3))
+# # # model.add(Reshape((X_train_3d.shape[1], X_train_3d.shape[2]), input_shape=(X_train_3d.shape[1], X_train_3d.shape[2])))
+# #
+# # # model.add(flat)
+# # model.compile(loss='mae', optimizer='adam')
+# # # fit network
+# # history = model.fit(X_train_3d, Y_train_3d, epochs=50, batch_size=32, validation_data=(X_test, Y_test), verbose=2, shuffle=True)
+# # # plot history
+# # pyplot.plot(history.history['loss'], label='train')
+# # pyplot.plot(history.history['val_loss'], label='test')
+# # pyplot.legend()
+# # pyplot.show()
+#
+#
+# # trainX = numpy.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+# # testX = numpy.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+# #
+# # # # create and fit the LSTM network
+# # model = Sequential()
+# # model.add(LSTM(4, input_shape=(22,1)))
+# # model.add(Dense(output_dim=2))
+# # model.compile(loss='mean_squared_error', optimizer='adam')
+# #
+# #
+# # # # Fit model in batches
+# # model.fit(X_train, keras.utils.to_categorical(Y_train,2), nb_epoch=5, batch_size=32)
+# # #
+# # # keras.utils.plot_model(model,'model.png',show_shapes=True,show_layer_names=True)
+# #
+# # # Evaluate model
+# # loss_and_metrics = model.evaluate(X_test, keras.utils.to_categorical(Y_test,2), batch_size=128)
+# # print("-----------------------------")
+# # print(loss_and_metrics)
+# # print("-----------------------------")
+# #
+# # perd = model.predict(X_test,batch_size=32,verbose=1)
+# # print(perd)
+# #
+# # model.save('convmodel.mdl',overwrite=True,include_optimizer=True)
 
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+# ------------------
 # do this on simulator paste this to the mydriver file all of this
 
 # from pytocl.driver import Driver
