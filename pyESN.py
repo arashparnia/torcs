@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def correct_dimensions(s, targetlength):
     """checks the dimensionality of some numeric argument s, broadcasts it
        to the specified length if possible.
@@ -249,3 +248,4 @@ class ESN():
                                                            np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
 
         return self._unscale_teacher(self.out_activation(outputs[1:]))
+

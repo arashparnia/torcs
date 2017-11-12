@@ -1,4 +1,6 @@
 import pandas as pd
+import pickle
+
 from random import random
 
 from sklearn.externals import joblib
@@ -93,7 +95,7 @@ scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 # apply same transformation to test data
-# X_test = scaler.transform(X_test)
+X_test = scaler.transform(X_test)
 
 
 # X_train = X_train.reshape(1,-1)
@@ -108,7 +110,7 @@ print(Y_train.shape)
 print(ESN)
 esn = ESN.ESN(n_inputs = 22,
           n_outputs = 3,
-          n_reservoir = 10,
+          n_reservoir = 100,
           spectral_radius = 0.5,
           sparsity = 0,
           noise = 0.01,
@@ -119,8 +121,24 @@ esn = ESN.ESN(n_inputs = 22,
 
 pred_train = esn.fit(X_train,Y_train,inspect=False)
 
+
+
+def save( obj, filename):
+    with open(filename, 'wb') as output:
+        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
+
+
+def load( filename):
+    with open('filename', 'rb') as input:
+        return (pickle.load(input))
+
+
+
+save(esn,"ESNmodel.file")
+
+m = load("ESNmodel.file")
 print("test error:")
-pred_test = esn.predict(X_test)
+pred_test = m.predict(X_test)
 print(np.sqrt(np.mean((pred_test - Y_test)**2)))
 
 #====================================================================================================================
