@@ -29,7 +29,7 @@ class ESN():
                  spectral_radius=0.95, sparsity=0, noise=0.001, input_shift=None,
                  input_scaling=None, teacher_forcing=True, feedback_scaling=None,
                  teacher_scaling=None, teacher_shift=None,
-                 out_activation=lambda x: x, inverse_out_activation=lambda x: x,
+                 # out_activation=lambda x: x, inverse_out_activation=lambda x: x,
                  random_state=None, silent=True):
         """
         Args:
@@ -65,8 +65,11 @@ class ESN():
         self.teacher_scaling = teacher_scaling
         self.teacher_shift = teacher_shift
 
-        self.out_activation = out_activation
-        self.inverse_out_activation = inverse_out_activation
+        #Since lambda function cannot be pickled we removed this dummy function.
+        #Also removed this variable usage elsewhere in this code.
+
+        # self.inverse_out_activation = inverse_out_activation
+        # self.out_activation = out_activation
         self.random_state = random_state
 
         # the given random_state might be either an actual RandomState object,
@@ -185,7 +188,8 @@ class ESN():
         extended_states = np.hstack((states, inputs_scaled))
         # Solve for W_out:
         self.W_out = np.dot(np.linalg.pinv(extended_states[transient:, :]),
-                            self.inverse_out_activation(teachers_scaled[transient:, :])).T
+                            # self.inverse_out_activation(teachers_scaled[transient:, :])).T
+                            (teachers_scaled[transient:, :])).T
 
         # remember the last state for later:
         self.laststate = states[-1, :]
@@ -205,8 +209,8 @@ class ESN():
         if not self.silent:
             print("training error:")
         # apply learned weights to the collected states:
-        pred_train = self._unscale_teacher(self.out_activation(
-            np.dot(extended_states, self.W_out.T)))
+        # pred_train = self._unscale_teacher(self.out_activation(np.dot(extended_states, self.W_out.T)))
+        pred_train = self._unscale_teacher((np.dot(extended_states, self.W_out.T)))
         if not self.silent:
             print(np.sqrt(np.mean((pred_train - outputs)**2)))
         return pred_train
@@ -244,8 +248,9 @@ class ESN():
         for n in range(n_samples):
             states[
                 n + 1, :] = self._update(states[n, :], inputs[n + 1, :], outputs[n, :])
-            outputs[n + 1, :] = self.out_activation(np.dot(self.W_out,
-                                                           np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
+            # outputs[n + 1, :] = self.out_activation(np.dot(self.W_out,np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
+            outputs[n + 1, :] = (np.dot(self.W_out,np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
 
-        return self._unscale_teacher(self.out_activation(outputs[1:]))
+        # return self._unscale_teacher(self.out_activation(outputs[1:]))
+        return self._unscale_teacher((outputs[1:]))
 

@@ -107,7 +107,7 @@ print(X_train.shape)
 print(Y_train.shape)
 
 
-print(ESN)
+# print(ESN)
 esn = ESN.ESN(n_inputs = 22,
           n_outputs = 3,
           n_reservoir = 100,
@@ -122,23 +122,27 @@ esn = ESN.ESN(n_inputs = 22,
 pred_train = esn.fit(X_train,Y_train,inspect=False)
 
 
+#
+# def save( obj, filename):
+#     with open(filename, 'wb') as output:
+#         pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
 
-def save( obj, filename):
-    with open(filename, 'wb') as output:
-        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
+#
+# def load( filename):
+#     with open('filename', 'rb') as input:
+#         return (pickle.load(input))
+#
 
 
-def load( filename):
-    with open('filename', 'rb') as input:
-        return (pickle.load(input))
+# save(esn,"ESNmodel.file")
+#
+# m = load("ESNmodel.file")
+filename= 'ESNmodel.pkl'
+with open(filename, 'wb') as output:
+    pickle.dump(esn,output)
 
-
-
-save(esn,"ESNmodel.file")
-
-m = load("ESNmodel.file")
 print("test error:")
-pred_test = m.predict(X_test)
+pred_test = esn.predict(X_test)
 print(np.sqrt(np.mean((pred_test - Y_test)**2)))
 
 #====================================================================================================================
