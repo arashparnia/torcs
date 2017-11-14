@@ -114,6 +114,8 @@ esn = ESN.ESN(n_inputs = 22,
           spectral_radius = 0.5,
           sparsity = 0,
           noise = 0.01,
+          out_activation=lambda x: x,
+          inverse_out_activation=lambda x: x,
           random_state = rng,
           silent = False)
 

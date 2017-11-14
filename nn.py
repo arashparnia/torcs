@@ -9,7 +9,7 @@ import os
 import neat
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
+import numpy as np
 import visualize
 
 # 2-input XOR inputs and expected outputs.
@@ -44,31 +44,35 @@ X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK
 
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.8,random_state= 42)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_state= 42)
 
 
 # -----------------------------------------------------------
 
-# from sklearn.preprocessing import StandardScaler
-# scaler = StandardScaler()
-# # Don't cheat - fit only on training data
-# scaler.fit(X_train)
-# X_train = scaler.transform(X_train)
-# # apply same transformation to test data
-# X_test = scaler.transform(X_test)
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+# Don't cheat - fit only on training data
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+# apply same transformation to test data
+X_test = scaler.transform(X_test)
 
 
 # -----------------------------------------------------------
 
+X_train = np.array(X_train)
+Y_train = np.array(Y_train)
+X_test = np.array(X_test)
+Y_test = np.array(Y_test)
 
-inputs = X_train.values.tolist()
-outputs = Y_train.values.tolist()
+inputs = X_train
+outputs = Y_train
 # -----------------------------------------------------------
 
 print("--------------------------------------------------------------------------------------------------------------------")
 def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
-        genome.fitness = -1000
+        genome.fitness = 0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
         for i, o in zip((inputs), (outputs)):
             output = net.activate(i)
