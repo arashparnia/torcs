@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/torcs.iml" filepath="$PROJECT_DIR$/.idea/torcs.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/torcs-client-master/.idea/torcs-client-master.iml" filepath="$USER_HOME$/Documents/torcs-client-master/.idea/torcs-client-master.iml" />
     </modules>
   </component>
 </project>
