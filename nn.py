@@ -6,16 +6,19 @@ from __future__ import print_function
 
 import copy
 import os
-import neat
+
 import pandas as pd
+
 from sklearn.model_selection import train_test_split
-
+import numpy as np
 import visualize
-
+import sklearn.metrics
+import neat
 # 2-input XOR inputs and expected outputs.
 
 # xor_inputs = [(0.0, 0.0), (0.0, 1.0), (1.0, 0.0), (1.0, 1.0)]
 # xor_outputs = [   (0.0,),     (1.0,),     (1.0,),     (0.0,)]
+
 
 datafile1 = 'aalborg.csv'
 datafile2 = 'alpine-1.csv'
@@ -37,14 +40,14 @@ d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
 
-Y = d1[['ACCELERATION','BRAKE','STEERING']]
+# Y = d1[['ACCELERATION','BRAKE','STEERING']]
 X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-# Y = data[['ACCELERATION']]
+Y = data[['STEERING']]
 # X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
 
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.8,random_state= 42)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
 
 
 # -----------------------------------------------------------
@@ -60,31 +63,69 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.8,random_st
 
 # -----------------------------------------------------------
 
+X_train = np.array(X_train)
+Y_train = np.array(Y_train)
+X_test = np.array(X_test)
+Y_test = np.array(Y_test)
 
-inputs = X_train.values.tolist()
-outputs = Y_train.values.tolist()
+inputs = X_train
+outputs = Y_train
 # -----------------------------------------------------------
 
 print("--------------------------------------------------------------------------------------------------------------------")
+
 def eval_genomes(genomes, config):
+    # start torcs serever
+    # start torcs client
+    # wait until finished
+    # fitness = results
     for genome_id, genome in genomes:
-        genome.fitness = -1000
-        net = neat.nn.FeedForwardNetwork.create(genome, config)
-        for i, o in zip((inputs), (outputs)):
-            output = net.activate(i)
-            genome.fitness -= (  abs(o[0] - output[0])   + abs(o[1] - output[1]) + abs(o[2] - output[2]) )
+        genome.fitness = 0
+        net = neat.nn.RecurrentNetwork.create(genome, config)
+
+        # make a file from net in torcs folder
+        # run torcs
+        # read fitness
+
+        predictions = []
+        for input, output_real in zip((inputs), (outputs)):
+            output_pred = net.activate(input)
+            predictions.append(output_pred)
+            # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
+
+
+        fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
+        f = open('fitness.txt', 'w')
+        f.write(str(fitness) + "\n")
+        f.close()
+
+        fitness_file = open('fitness.txt', 'r')
+        for f in fitness_file:
+            fitness = f
+
+        genome.fitness  = float(f)
+
+        # genome.fitness -= abs(sklearn.metrics.r2_score(outputs,predictions))
+        # print(genome.fitness)
+
 
 
 def run(config_file):
     # Load configuration.
+
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
     p = neat.Population(config)
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-115')
 
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-2906')
+
+    #
+    # thenet = neat.nn.FeedForwardNetwork.create(p.best_genome, config)
+    # output = thenet.activate(i)
+    #
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
@@ -92,19 +133,39 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(0))
 
     # Run for up to 300 generations.
-    winner = p.run(eval_genomes, 10000000)
+    winner = p.run(eval_genomes, 1000)
+
+    import gzip
+
+    try:
+        import cPickle as pickle  # pylint: disable=import-error
+    except ImportError:
+        import pickle  # pylint: disable=import-error
+
+    def save_object(obj, filename):
+        with gzip.open(filename, 'w', compresslevel=5) as f:
+            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    def load_object(filename):
+        with gzip.open(filename) as f:
+            obj = pickle.load(f)
+            return obj
+
+    save_object(winner,"neat.pkl")
+    # winner = load_object("neat.pkl")
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
 
     # Show output of the most fit genome against training data.
     print('\nOutput:')
-    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    winner_net = neat.nn.RecurrentNetwork.create(winner, config)
     for i, o in zip(inputs, outputs):
         output = winner_net.activate(i)
-        print("input {!r}, expected output {!r}, got {!r}".format(i, o, output))
+        # print("input {!r}, expected output {!r}, got {!r}".format(i, o, output))
+        print("expected output {!r}, got {!r}".format( o, output))
 
-    node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
+    node_names = {0:'Acc', 1: 'Brk', 2:'Str'}
     visualize.draw_net(config, winner, True, node_names=node_names)
     visualize.plot_stats(stats, ylog=True, view=True)
     visualize.plot_species(stats, view=True)
