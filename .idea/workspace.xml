@@ -1,70 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98e4ad19-e7cd-48b8-ace2-d9a9d9dd0272" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/eight.ai" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/eight.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/eight_inverted.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/eight_striped.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/eight_striped2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/save.p" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/RNNmodel_acc.mdl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/RNNmodel_brk.mdl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/RNNmodel_st.mdl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/driver_stuff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fitness.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jump.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/examples/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/examples/pole_balancing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/examples/xor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/experiments/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/experiments/hyperneat_fracture.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/experiments/hyperneat_line_following.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/experiments/hyperneat_noise.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/experiments/hyperneat_visual_discrimination.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/evolution.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/hyperneat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/neat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/neatpythonwrapper.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/reaction.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/methods/wavelets.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/networks/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/networks/rnn.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/checkers.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/linefollowing/linefollowing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/polebalance.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/shapediscrimination.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/targetweights.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/walking.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/tasks/xor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/test/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peas/test/test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/standard_neat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tensorflow_utils.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tn.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/xor.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RNNmodel.mdl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/neat-checkpoint-0" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/torcs.iml" afterPath="$PROJECT_DIR$/.idea/torcs.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Digraph.gv" afterPath="$PROJECT_DIR$/Digraph.gv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Digraph.gv.svg" afterPath="$PROJECT_DIR$/Digraph.gv.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/avg_fitness.svg" afterPath="$PROJECT_DIR$/avg_fitness.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config" afterPath="$PROJECT_DIR$/config" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nn.py" afterPath="$PROJECT_DIR$/nn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pyESN.py" afterPath="$PROJECT_DIR$/pyESN.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rnn.py" afterPath="$PROJECT_DIR$/rnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/speciation.svg" afterPath="$PROJECT_DIR$/speciation.svg" />
-    </list>
+    <list default="true" id="98e4ad19-e7cd-48b8-ace2-d9a9d9dd0272" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -739,7 +676,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511253744272</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="neat new file">
+      <created>1511257507826</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1511257507826</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView">
@@ -756,13 +700,13 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27045178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32959184" sideWeight="0.502442" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32959184" sideWeight="0.497558" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45714286" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1081,6 +1025,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+          <folding>
+            <element signature="e#1#44#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1088,6 +1035,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+          <folding>
+            <element signature="e#30#53#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1116,6 +1066,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
