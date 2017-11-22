@@ -34,20 +34,20 @@ data = pd.concat([data1,data2,data3])
 data  = data.fillna(0,axis=0,inplace=False)
 
 
-data.dropna(axis=0,inplace=True)
+# data.dropna(axis=0,inplace=True)
 
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
 
-# Y = d1[['ACCELERATION','BRAKE','STEERING']]
+Y = d1[['ACCELERATION','BRAKE','STEERING']]
 X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-Y = data[['STEERING']]
+# Y = data[['STEERING']]
 # X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
 
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
+# X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
 
 
 # -----------------------------------------------------------
@@ -63,13 +63,13 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_st
 
 # -----------------------------------------------------------
 
-X_train = np.array(X_train)
-Y_train = np.array(Y_train)
-X_test = np.array(X_test)
-Y_test = np.array(Y_test)
+# X_train = np.array(X_train)
+# Y_train = np.array(Y_train)
+# X_test = np.array(X_test)
+# Y_test = np.array(Y_test)
 
-inputs = X_train
-outputs = Y_train
+inputs = np.array(X)
+outputs = np.array(Y)
 # -----------------------------------------------------------
 
 print("--------------------------------------------------------------------------------------------------------------------")
@@ -92,19 +92,17 @@ def eval_genomes(genomes, config):
             output_pred = net.activate(input)
             predictions.append(output_pred)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
+        print(net.activate(input))
 
-
-        fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
-        f = open('fitness.txt', 'w')
-        f.write(str(fitness) + "\n")
-        f.close()
-
-        fitness_file = open('fitness.txt', 'r')
-        for f in fitness_file:
-            fitness = f
-
-        genome.fitness  = float(f)
-
+        # fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
+        genome.fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
+        # f = open('fitness.txt', 'w')
+        # f.write(str(fitness) + "\n")
+        # f.close()
+        #
+        # fitness_file = open('fitness.txt', 'r')
+        # for f in fitness_file:
+        #     genome.fitness  = float(f)
         # genome.fitness -= abs(sklearn.metrics.r2_score(outputs,predictions))
         # print(genome.fitness)
 
@@ -133,25 +131,25 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(0))
 
     # Run for up to 300 generations.
-    winner = p.run(eval_genomes, 1000)
+    winner = p.run(eval_genomes, 10000)
 
-    import gzip
+    # import gzip
+    #
+    # try:
+    #     import cPickle as pickle  # pylint: disable=import-error
+    # except ImportError:
+    #     import pickle  # pylint: disable=import-error
+    #
+    # def save_object(obj, filename):
+    #     with gzip.open(filename, 'w', compresslevel=5) as f:
+    #         pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
+    #
+    # def load_object(filename):
+    #     with gzip.open(filename) as f:
+    #         obj = pickle.load(f)
+    #         return obj
 
-    try:
-        import cPickle as pickle  # pylint: disable=import-error
-    except ImportError:
-        import pickle  # pylint: disable=import-error
-
-    def save_object(obj, filename):
-        with gzip.open(filename, 'w', compresslevel=5) as f:
-            pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
-
-    def load_object(filename):
-        with gzip.open(filename) as f:
-            obj = pickle.load(f)
-            return obj
-
-    save_object(winner,"neat.pkl")
+    # save_object(winner,"neat.pkl")
     # winner = load_object("neat.pkl")
 
     # Display the winning genome.
@@ -179,5 +177,5 @@ if __name__ == '__main__':
     # here so that the script will run successfully regardless of the
     # current working directory.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'config')
+    config_path = os.path.join(local_dir, 'config2')
     run(config_path)

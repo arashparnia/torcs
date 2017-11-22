@@ -73,6 +73,8 @@ def fitness(pop):
             output_pred = nw_activate(input)
             predictions.append(output_pred)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
+            # print(output_pred)
+
         fitness = 0 - sklearn.metrics.mean_squared_error(outputs, predictions)
         f = open('fitness.txt', 'w')
         f.write(str(fitness) + "\n")
@@ -81,6 +83,7 @@ def fitness(pop):
         fitness_file = open('fitness.txt', 'r')
         for f in fitness_file:
             g['fitness'] = float(f)
+
 
 
 nn = neat.main(fitness=fitness, gen_size=100, pop_size=20, verbose=True, fitness_thresh=0,save=True)
