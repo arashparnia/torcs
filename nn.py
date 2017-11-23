@@ -91,8 +91,9 @@ def eval_genomes(genomes, config):
         for input, output_real in zip((inputs), (outputs)):
             output_pred = net.activate(input)
             predictions.append(output_pred)
+            # print(output_pred,output_real)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
-        print(net.activate(input))
+
 
         # fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
         genome.fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
@@ -136,7 +137,7 @@ def run(config_file):
     # import gzip
     #
     # try:
-    #     import cPickle as pickle  # pylint: disable=import-error
+    #     import pickle as pickle  # pylint: disable=import-error
     # except ImportError:
     #     import pickle  # pylint: disable=import-error
     #
