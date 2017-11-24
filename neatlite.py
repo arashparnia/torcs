@@ -32,8 +32,10 @@ def act_fn(z):
     """
     Sigmoidal activation function
     """
-    z = min(40, max(-40, z))
-    return 1.0 / (1.0 + math.exp(-4.9 * z))
+    z = max(-60.0, min(60.0, 2.5 * z))
+    return math.tanh(z)
+    # z = min(40, max(-40, z))
+    # return 1.0 / (1.0 + math.exp(-4.9 * z))
 
 def create_gene(ip=None, op=None, wt=0.0, enabled=True, innov_no=0):
     """
@@ -176,8 +178,8 @@ def mutate(genome):
     """
     Given a genome, mutates it in-place
     """
-    NODE_MUTATE_PROB = 0.03
-    CONN_MUTATE_PROB = 0.05
+    NODE_MUTATE_PROB = 0.3
+    CONN_MUTATE_PROB = 0.5
     WT_MUTATE_PROB = 0.8
     WT_PERTURBED_PROB = 0.9
 
@@ -581,6 +583,7 @@ def print_fittest(species, verbose=False, compact=False, file=sys.stdout):
 
 
 def main(fitness, gen_size=100, pop_size=150, verbose=False, fitness_thresh=None, save=None):
+
     if save is True:
         species = pickle.load(open('save.p', 'rb'))
         pop = []
@@ -588,6 +591,7 @@ def main(fitness, gen_size=100, pop_size=150, verbose=False, fitness_thresh=None
         print(species)
     else:
         pop = create_population(pop_size)
+        print("Initialized population")
         fitness(pop)
         yield pop
         species = { 0: { 'members': pop,

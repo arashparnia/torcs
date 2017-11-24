@@ -7,32 +7,14 @@ import pickle
 import pyrenn as prn
 import os
 import neat
-#from neupy import algorithms, layers
-# from neupy import algorithms, layers, environment
-# from neupy.datasets import reber
-# old_distance = None
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 
-# stuck = False
-# MAX_UNSTUCK_SPEED = 5
-# MIN_UNSTUCK_DIST = 3
-# MAX_UNSTUCK_ANGLE = 10
+
 class MyDriver(Driver):
-    stuck = False
-    MAX_UNSTUCK_ANGLE = 15.0 / 180.0 * np.pi  #/ *[radians] * /
-    UNSTUCK_TIME_LIMIT = 2.0# / *[s] * /
-    MAX_UNSTUCK_SPEED = 5.0# / *[m / s] * /
-    MIN_UNSTUCK_DIST = 3.0# / *[m] * /
-    MAX_UNSTUCK_COUNT = 100
-    stuck = 0
-    counter = 0
-    flag = False
+
+    reward = 0
     # Override the `drive` method to create your own driver
     ...
-
-
-
-
 
     def drive(self, carstate: State) -> Command:
         """
@@ -40,59 +22,75 @@ class MyDriver(Driver):
         fitness calculation
 
         """
-        # if (self.isStuck(carstate)):
-        #     print("STUCKKKK")
+
         command = Command()
-
-        data = [carstate.speed_x, carstate.distance_from_center, carstate.angle] + list(
-            carstate.distances_from_edge[0:19])
-               # + [self.old_acc,self.old_brk,self.old_str]
-
+##########################################################
+        distance_from_edge = list(carstate.distances_from_edge[0:19])
+        opponents = list(carstate.opponents[0:36])
+        data = [carstate.speed_x,carstate.speed_y, carstate.distance_from_center, carstate.angle] + distance_from_edge + opponents
         data = pd.DataFrame(data)
-
         data = np.array(data)
-
-        # net = prn.loadNN("RNNmodel_acc.mdl")
-        # out = prn.NNOut(data, net)
-
-        # print("Unpickled network in driver")
+##########################################################
+        #for old neat use below
+        # print("Unpickled the population in driver")
         with open('network.p', 'rb') as input:
-            g= pickle.load(input)
+            net = pickle.load(input)
+        data = net.activate(data)
+        command.accelerator = data[0]
+        command.brake = data[1]
+        command.steering = data[2]
+##########################################################
 
-        nw_activate = neat.generate_network(g)
-        # print("generated network")
-        data1=nw_activate(data)
-        command.accelerator= data1[0]
-        command.brake=data1[1]
-        command.steering=data1[2]
+        MAX_COUNTER = 30
 
-    
+        # self.counter = self.counter + 1
 
-        # print("distance from start : ", carstate.distance_from_start)
-        self.counter = self.counter + 1
-        # print(self.counter)
-        # if (self.counter < 200 and (command.accelerator != 1 or command.brake != 0)):
-        if (carstate.distance_from_start < 10):
-            self.flag = True
+        fitness = carstate.distance_from_start
+        if fitness > 2000:
+            fitness =0
 
-        if (self.counter > 500 and self.flag == False ):
-            # print("distancer from start: ", carstate.distance_from_start)
-            # print("fitness " ,0 )
-            fitness = 0
-            f = open('fitness.txt', 'w')
-            f.write(str(fitness) + "\n")
-            f.close()
+        if command.accelerator > 0.9:
+            fitness += 1
+        if command.brake > 0.1:
+            fitness -= 1
+        if abs(command.steering) > 0.1:
+            fitness -= 1
+        # self.reward +=  ( 180  - (abs(carstate.angle))) * 0.001
+
+        # fitness += self.reward
+        counter = carstate.current_lap_time
+
+        if (counter > MAX_COUNTER):
+            self.fitness_to_file(fitness)
+            print("COUNTER MAX    fitness: ", fitness, " counter: ", counter, " Distance: ",carstate.distance_from_start)
             command.meta = 1
 
-        if((carstate.distance_from_center>1 or carstate.distance_from_center<-1 or self.counter >8000)  and self.flag == True):
-            fitness= carstate.distance_from_start
-            print(self.counter)
-            # print("distancer from start: ", carstate.distance_from_start)
-            # print("fitness loop ", fitness)
-            f = open('fitness.txt', 'w')
-            f.write(str(fitness) + "\n")
-            f.close()
-            command.meta=1
+        # if (counter > 5 and command.accelerator < 0.7):
+        #     fitness = 0
+        #     self.fitness_to_file(fitness)
+        #     print("DID NOT ACCELERATE   fitness: ", fitness, " counter: ", counter, " Distance: ",carstate.distance_from_start)
+        #     command.meta = 1
+
+        # if (carstate.distance_raced < -5 ):
+        #     fitness = 0
+        #     self.fitness_to_file(fitness)
+        #     print("BACKEWARD      fitness: ", fitness , " counter: ", counter, " Distance: ",carstate.distance_from_start)
+        #     command.meta = 1
+
+        # if ( abs(carstate.distance_from_center) > 0.9 ):
+        #     self.fitness_to_file(fitness)
+        #     print("OUT OF TRACK   fitness: ", fitness, " counter: ", counter, " Distance: ",carstate.distance_from_start)
+        #     command.meta = 1
+
+        # if (carstate.damage > 5000):
+        #     self.fitness_to_file(fitness)
+        #     print("DAMAGED        fitness: ", fitness, " counter: ", counter, " Distance: ",carstate.distance_from_start)
+        #     command.meta = 1
+##########################################################
+        # print("Min opponent distance is", map(min,(zip(*carstate.opponents))))
+        # print("list of tuple is: ", (carstate.opponents)[0])
+        # print("Damage : ", carstate.damage)
+        # print("opponents : ", carstate.opponents)
 
         if carstate.rpm > 9000:
             command.gear = carstate.gear + 1
@@ -105,18 +103,7 @@ class MyDriver(Driver):
 
         return command
 
-
-
-    def isStuck(self, carstate: State):
-
-        if carstate.angle > self.MAX_UNSTUCK_ANGLE and carstate.speed_x < self.MAX_UNSTUCK_SPEED and abs(
-                carstate.distances_from_edge[9]) > self.MIN_UNSTUCK_DIST:
-
-            if (self.stuck > self.MAX_UNSTUCK_COUNT and carstate.distances_from_edge[9] * carstate.angle < 0.0):
-                return True
-            else:
-                self.stuck = self.stuck + 1
-                return False
-        else:
-            self.stuck = 0
-        return False
+    def fitness_to_file(self,fitness):
+        f = open('fitness.txt', 'w')
+        f.write(str(fitness) + "\n")
+        f.close()

@@ -13,6 +13,7 @@ import copy
 import sklearn
 from sklearn.model_selection import train_test_split
 
+import neatlite
 
 datafile1 = 'aalborg.csv'
 datafile2 = 'alpine-1.csv'
@@ -22,14 +23,14 @@ mypath = os.getcwd()
 mypath += '/train_data/'
 
 data1 = pd.read_csv( mypath + datafile1 , index_col=False)
-# data2 = pd.read_csv( mypath + datafile2, index_col=False)
-# data3 = pd.read_csv( mypath + datafile3, index_col=False)
+data2 = pd.read_csv( mypath + datafile2, index_col=False)
+data3 = pd.read_csv( mypath + datafile3, index_col=False)
 
-# data = pd.concat([data3,data2,data1])
-data = data1
+data = pd.concat([data3,data2,data1])
+# data = data1
 
 data  = data.fillna(data.interpolate(),axis=0,inplace=False)
-data.dropna(axis=0,inplace=True)
+# data.dropna(axis=0,inplace=True)
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 Y = pd.DataFrame(d1[['ACCELERATION','BRAKE','STEERING']])
@@ -40,19 +41,19 @@ X = pd.DataFrame(d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_ED
 
 # X = X.values.tolist()
 # Y = Y.values.tolist()
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_state= 42)
+# X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2,random_state= 42)
 
 
 rng = np.random.RandomState(42)
 # os._exit()
 
-X_train = np.array(X_train)
-Y_train = np.array(Y_train)
-X_test = np.array(X_test)
-Y_test = np.array(Y_test)
-inputs = X_train
-outputs = Y_train
-import neat
+# X_train = np.array(X_train)
+# Y_train = np.array(Y_train)
+# X_test = np.array(X_test)
+# Y_test = np.array(Y_test)
+inputs = np.array(X)
+outputs = np.array(Y)
+import neatlite
 
 
 def fitness(pop):
@@ -61,9 +62,10 @@ def fitness(pop):
     Recieves a list of pop. Modify ONLY their
     fitness values
     """
+
     for g in pop:
         g['fitness'] = 0
-        nw_activate = neat.generate_network(g)
+        nw_activate = neatlite.generate_network(g)
         # for xi, xo in zip(xor_inputs, xor_outputs):
         #     output = nw_activate(xi)
         #     g['fitness'] -= (output[0] - xo[0]) ** 2
@@ -75,18 +77,18 @@ def fitness(pop):
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
             # print(output_pred)
 
-        fitness = 0 - sklearn.metrics.mean_squared_error(outputs, predictions)
-        f = open('fitness.txt', 'w')
-        f.write(str(fitness) + "\n")
-        f.close()
+        g['fitness']  = 0 - sklearn.metrics.mean_squared_error(outputs, predictions)
+        # f = open('fitness.txt', 'w')
+        # f.write(str(fitness) + "\n")
+        # f.close()
+        #
+        # fitness_file = open('fitness.txt', 'r')
+        # for f in fitness_file:
+        #     g['fitness'] = float(f)
 
-        fitness_file = open('fitness.txt', 'r')
-        for f in fitness_file:
-            g['fitness'] = float(f)
 
 
-
-nn = neat.main(fitness=fitness, gen_size=100, pop_size=20, verbose=True, fitness_thresh=0,save=True)
+nn = neatlite.main(fitness=fitness, gen_size=10000, pop_size=10, verbose=True, fitness_thresh=10000,save=False)
 fit = None
 
 while True:

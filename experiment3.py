@@ -39,7 +39,7 @@ def eval_fitness(genomes, config):
             predictions.append(output_pred)
             # print(output_pred,output_real)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
-        # print(predictions[10],outputs[10])
+        print(predictions[10],outputs[10])
 
         # fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
         genome.fitness = 0 - sklearn.metrics.mean_squared_error(outputs,predictions)
@@ -102,7 +102,7 @@ data3 = pd.read_csv( mypath + datafile3, index_col=False)
 
 data = pd.concat([data1,data2,data3])
 
-data  = data.fillna(0,axis=0,inplace=False)
+data  = data.fillna(data.interpolate(),axis=0,inplace=False)
 
 
 # data.dropna(axis=0,inplace=True)
@@ -133,7 +133,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # Run!
-winner = run(10, eval_fitness)[0]
+winner = run(1000, eval_fitness)[0]
 
 # Save net if wished reused and draw it to file.
 net = neat.nn.RecurrentNetwork.create(winner, config)
