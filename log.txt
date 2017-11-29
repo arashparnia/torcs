@@ -1,318 +1,208 @@
-Fitness: -0.671, Genes: 101, Neurons: 37
+Fitness: -0.691, Genes: 71, Neurons: 27
 Species len: 1
-Fitness: -0.662, Genes: 99, Neurons: 36
+Fitness: -0.691, Genes: 71, Neurons: 27
 Species len: 1
-Fitness: -0.644, Genes: 99, Neurons: 36
+Fitness: -0.691, Genes: 71, Neurons: 27
 Species len: 1
-Fitness: -0.644, Genes: 99, Neurons: 36
+Fitness: -0.679, Genes: 71, Neurons: 27
 Species len: 1
-Fitness: -0.644, Genes: 99, Neurons: 36
+Fitness: -0.673, Genes: 72, Neurons: 27
 Species len: 1
-Fitness: -0.637, Genes: 99, Neurons: 36
+Fitness: -0.669, Genes: 73, Neurons: 28
 Species len: 1
-Fitness: -0.637, Genes: 99, Neurons: 36
+Fitness: -0.665, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.637, Genes: 99, Neurons: 36
+Fitness: -0.665, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.628, Genes: 101, Neurons: 37
+Fitness: -0.665, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.625, Genes: 105, Neurons: 39
+Fitness: -0.665, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.621, Genes: 105, Neurons: 39
+Fitness: -0.663, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.609, Genes: 105, Neurons: 39
+Fitness: -0.663, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.609, Genes: 105, Neurons: 39
+Fitness: -0.654, Genes: 75, Neurons: 29
 Species len: 1
-Fitness: -0.609, Genes: 105, Neurons: 39
+Fitness: -0.620, Genes: 77, Neurons: 30
 Species len: 1
-Fitness: -0.604, Genes: 105, Neurons: 39
+Fitness: -0.620, Genes: 77, Neurons: 30
 Species len: 1
-Fitness: -0.604, Genes: 107, Neurons: 40
+Fitness: -0.620, Genes: 77, Neurons: 30
 Species len: 1
-Fitness: -0.604, Genes: 107, Neurons: 40
+Fitness: -0.609, Genes: 77, Neurons: 30
 Species len: 1
-Fitness: -0.604, Genes: 107, Neurons: 40
+Fitness: -0.606, Genes: 78, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 112, Neurons: 42
+Fitness: -0.606, Genes: 78, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 112, Neurons: 42
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 112, Neurons: 42
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 112, Neurons: 42
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 79, Neurons: 30
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 114, Neurons: 43
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 116, Neurons: 44
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 116, Neurons: 44
+Fitness: -0.606, Genes: 81, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 116, Neurons: 44
+Fitness: -0.606, Genes: 82, Neurons: 31
 Species len: 1
-Fitness: -0.603, Genes: 117, Neurons: 44
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.603, Genes: 117, Neurons: 44
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 120, Neurons: 45
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 120, Neurons: 45
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.602, Genes: 123, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.601, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 124, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 125, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 125, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 125, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 125, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 126, Neurons: 47
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 129, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 129, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 129, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 129, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 130, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 130, Neurons: 48
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 132, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.600, Genes: 133, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 134, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 135, Neurons: 49
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 139, Neurons: 50
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 141, Neurons: 51
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 144, Neurons: 52
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1
-Fitness: -0.599, Genes: 144, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 144, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 144, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 145, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 145, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 145, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 145, Neurons: 52
-Species len: 1
-Fitness: -0.599, Genes: 145, Neurons: 52
-Species len: 1
-Fitness: -0.598, Genes: 147, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 147, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 147, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 147, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 148, Neurons: 53
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
-Species len: 1
-Fitness: -0.598, Genes: 151, Neurons: 54
+Fitness: -0.606, Genes: 83, Neurons: 32
 Species len: 1

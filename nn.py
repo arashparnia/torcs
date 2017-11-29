@@ -31,23 +31,38 @@ data3 = pd.read_csv( mypath + datafile3, index_col=False)
 
 data = pd.concat([data1,data2,data3])
 
-data  = data.fillna(0,axis=0,inplace=False)
 
 
-# data.dropna(axis=0,inplace=True)
+# data = data1
+# data  = data.fillna(data.,axis=0,inplace=False)
+
+print(data.shape)
+data.dropna(axis=0,inplace=True)
+print(data.shape)
 
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
 
-Y = d1[['ACCELERATION','BRAKE','STEERING']]
+# Y = d1[['ACCELERATION','BRAKE','STEERING']]
 X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-# Y = data[['STEERING']]
+Y = data[['STEERING']]
 # X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
 
+from sklearn import preprocessing
 
 
-# X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
+X = (X - X.mean()) / (X.max() - X.min())
+
+
+# x = X.values #returns a numpy array
+# min_max_scaler = preprocessing.MinMaxScaler()
+# # x_scaled = min_max_scaler.fit_transform(x)
+# # X = pd.DataFrame(x_scaled)
+#
+# x1 = pd.DataFrame(min_max_scaler.fit_transform(X.T), columns=X.columns, index=X.index)
+# X = x1.transpose
+# # X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
 
 
 # -----------------------------------------------------------
@@ -75,6 +90,7 @@ outputs = np.array(Y)
 print("--------------------------------------------------------------------------------------------------------------------")
 
 def eval_genomes(genomes, config):
+    s=0
     # start torcs serever
     # start torcs client
     # wait until finished
@@ -91,7 +107,10 @@ def eval_genomes(genomes, config):
         for input, output_real in zip((inputs), (outputs)):
             output_pred = net.activate(input)
             predictions.append(output_pred)
-            # print(output_pred,output_real)
+
+            s+=1
+            if s % 10000 == 0:
+                print("Predicted: " , output_pred,"      Real: ",output_real)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
 
 
@@ -118,9 +137,9 @@ def run(config_file):
 
     # Create the population, which is the top-level object for a NEAT run.
     p = neat.Population(config)
-
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-2906')
-
+    #
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-100')
+    #
     #
     # thenet = neat.nn.FeedForwardNetwork.create(p.best_genome, config)
     # output = thenet.activate(i)

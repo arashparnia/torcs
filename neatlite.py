@@ -8,19 +8,23 @@ from collections import defaultdict
 import random
 import logging
 import pprint
+
 pprint = pprint.PrettyPrinter(width=120).pprint
 from enum import Enum
+
 logging.basicConfig(level=logging.ERROR)
 
 # Number of i/p, o/p and bias units.
 INPUTS = 22
 OUTPUTS = 3
-BIAS = 11
+BIAS = 1
+save_file = 'save_2.p'
 # Global innovation number, all individuals populations
 # are assumed to have same historical origins
 # hence their innovation numbers are same for the intially
 # fully connected network starting from 0 upto ``innov_no``
 innov_no = (INPUTS + BIAS) * OUTPUTS - 1
+
 
 class Layer(Enum):
     INPUT = 0
@@ -28,14 +32,22 @@ class Layer(Enum):
     OUTPUT = 2
     BIAS = 3
 
+
 def act_fn(z):
     """
     Sigmoidal activation function
     """
-    z = max(-60.0, min(60.0, 2.5 * z))
-    return math.tanh(z)
     # z = min(40, max(-40, z))
     # return 1.0 / (1.0 + math.exp(-4.9 * z))
+
+    # Tanh activation function
+    z = max(-60.0, min(60.0, 2.5 * z))
+    return math.tanh(z)
+
+    # Clamped acivation function
+
+    # return max(-1.0, min(1.0, z))
+
 
 def create_gene(ip=None, op=None, wt=0.0, enabled=True, innov_no=0):
     """
@@ -49,16 +61,18 @@ def create_gene(ip=None, op=None, wt=0.0, enabled=True, innov_no=0):
     gene['innov_no'] = innov_no
     return gene
 
+
 def create_neuron(layer=None):
     """
     Create a simple base neuron i.e. a node
     """
     neuron = {}
     neuron['id'] = 0
-    #neuron['in_links'] = {}
-    #neuron['value'] = 0.0
+    # neuron['in_links'] = {}
+    # neuron['value'] = 0.0
     neuron['type'] = layer
     return neuron
+
 
 def create_genome():
     """
@@ -74,13 +88,14 @@ def create_genome():
     genome['fitness'] = 0.0
     return genome
 
+
 def copy_genome(genome):
     """
     Fast copy a genome
     """
     clone = {}
-    #clone['genes'] = genome['genes'].copy()
-    #clone['neurons'] = genome['neurons'].copy()
+    # clone['genes'] = genome['genes'].copy()
+    # clone['neurons'] = genome['neurons'].copy()
     clone['genes'] = copy.deepcopy(genome['genes'])
     clone['neurons'] = copy.deepcopy(genome['neurons'])
     clone['ip_neurons'] = genome['ip_neurons']
@@ -89,6 +104,7 @@ def copy_genome(genome):
     clone['last_neuron'] = genome['last_neuron']
     clone['fitness'] = genome['fitness']
     return clone
+
 
 def init_individual():
     """
@@ -132,7 +148,7 @@ def init_individual():
             gene['op'] = genome['op_neurons'][j]
             gene['wt'] = random.random() * 2 - 1
             genome['genes'][innov_no] = gene
-            #genome['genes'][(gene['ip'], gene['op'])] = gene
+            # genome['genes'][(gene['ip'], gene['op'])] = gene
             innov_no += 1
 
     for i in range(BIAS):
@@ -142,10 +158,11 @@ def init_individual():
             gene['op'] = genome['op_neurons'][j]
             gene['wt'] = random.random() * 2 - 1
             genome['genes'][innov_no] = gene
-            #genome['genes'][(gene['ip'], gene['op'])] = gene
+            # genome['genes'][(gene['ip'], gene['op'])] = gene
             innov_no += 1
 
     return genome
+
 
 def create_population(size):
     """
@@ -157,14 +174,16 @@ def create_population(size):
         pop.append(genome_i)
     return pop
 
+
 def next_innov_no():
     """
     Tracker for global innovations among genes
     """
     global innov_no
     innov_no += 1
-    #generation['innov_no'] += 1
+    # generation['innov_no'] += 1
     return innov_no
+
 
 def next_nid(genome):
     """
@@ -174,14 +193,15 @@ def next_nid(genome):
     genome['last_neuron'] = nid
     return nid
 
+
 def mutate(genome):
     """
     Given a genome, mutates it in-place
     """
-    NODE_MUTATE_PROB = 0.3
-    CONN_MUTATE_PROB = 0.5
+    NODE_MUTATE_PROB = 0.2
+    CONN_MUTATE_PROB = 0.2
     WT_MUTATE_PROB = 0.8
-    WT_PERTURBED_PROB = 0.9
+    WT_PERTURBED_PROB = 0.6
 
     if random.random() < NODE_MUTATE_PROB:
         mutate_add_node(genome)
@@ -190,7 +210,7 @@ def mutate(genome):
     if random.random() < WT_MUTATE_PROB:
         for gene in genome['genes'].values():
             if random.random() < WT_PERTURBED_PROB:
-                gene['wt'] = gene['wt'] * (1 + (random.random() * 2 - 1)/10)
+                gene['wt'] = gene['wt'] * (1 + (random.random() * 2 - 1) / 10)
             else:
                 gene['wt'] = random.random() * 2 - 1
 
@@ -219,6 +239,7 @@ def mutate_add_conn(g):
     g['genes'][innov_no] = gene
     logging.debug("mutation: added a conn")
 
+
 def detect_cycle(g, ip, op):
     if ip == op:
         return False
@@ -238,6 +259,7 @@ def detect_cycle(g, ip, op):
         if op in explored:
             return True
     return False
+
 
 def mutate_add_node(g):
     # Select any gene
@@ -266,6 +288,7 @@ def mutate_add_node(g):
     g['genes'][innov_no2] = gene2
     logging.debug("mutation: added a node")
 
+
 def crossover(mom, dad):
     """
     Mates 2 individuals and returns an offspring
@@ -274,14 +297,14 @@ def crossover(mom, dad):
     if mom['fitness'] < dad['fitness']:
         dad, mom = mom, dad
 
-    # create a new child and copy over all the 
+    # create a new child and copy over all the
     # information except for genes
     # from mom (the fitter parent)
     child = copy_genome(mom)
     child['genes'] = {}
 
     # Copy genes from both parents to the child
-    # We use historical markings i.e. the innovation 
+    # We use historical markings i.e. the innovation
     # numbers (which are keys of the genes dict)
     for gene in mom['genes']:
         if gene in dad['genes'] and random.random() < 0.5:
@@ -292,6 +315,7 @@ def crossover(mom, dad):
             child['genes'][gene] = mom['genes'][gene].copy()
 
     return child
+
 
 def create_layers(g):
     nodep = {x for x in g['ip_neurons']}
@@ -323,14 +347,16 @@ def create_layers(g):
 
     return layers, incoming, wt
 
+
 def generate_network(g):
     layers, incoming, wt = create_layers(g)
 
     def activate(inputs):
         # set the values for the inputs
+
         values = {x: 0.0 for x in g['neurons'].keys()}
         for i, ip_n in enumerate(g['ip_neurons']):
-            #g['neurons'][ip_n]['value'] = inputs[i]
+            # g['neurons'][ip_n]['value'] = inputs[i]
             values[ip_n] = inputs[i]
 
         values[g['bias_neurons'][0]] = 1.0
@@ -360,10 +386,10 @@ def adjusted_pop_size(species, pop_size):
     size = {}
     sp_fitness = {}
     avg_wt = 0
-    #total_avg
+    # total_avg
 
-    #for sp in species.values():
-        
+    # for sp in species.values():
+
 
     for i, sp in species.items():
         sp_fitness[i] = sum([x['fitness'] for x in sp['members']])
@@ -383,8 +409,8 @@ def adjusted_pop_size(species, pop_size):
         else:
             sp_size *= 0.93
         size[i] = sp_size
-        #print("Curr size: ", len(sp['members']))
-        #print("Expe size: ", size[i])
+        # print("Curr size: ", len(sp['members']))
+        # print("Expe size: ", size[i])
 
     # normalize
     total_size = sum(size.values())
@@ -427,7 +453,7 @@ def fitness_sharing(species):
         members = sp['members']
         n = len(members)
         for g in members:
-            g['adj_fitness'] = g['fitness']/n
+            g['adj_fitness'] = g['fitness'] / n
 
 
 def reproduce(species, pop_size):
@@ -452,6 +478,8 @@ def reproduce(species, pop_size):
         # remove 25% most unfit members
         mem_size = len(sp['members'])
         members = sorted(sp['members'], key=lambda x: x['fitness'])[int(mem_size)//4:]
+        # remove 50% most unfit members
+        # members = sorted(sp['members'], key=lambda x: x['fitness'])[int(mem_size) // 2:]
 
         if len(members) > 0:
             # If the species has atleast 1 individuals
@@ -460,23 +488,28 @@ def reproduce(species, pop_size):
             size -= 1
 
         norm_size = int(size)
-        norm_60 = int(norm_size * 0.60)
+        norm_50 = int(norm_size * 0.50)
         norm_25 = int(norm_size * 0.25)
         # account for loss due to rounding
-        norm_15 = norm_size - norm_60 - norm_25
+        norm_25 = norm_size - norm_50 - norm_25
 
 
         # 15% of the new population is obtained from mutations
         # of the best 10% of the species
         best_10 = members[-int(mem_size * 0.1):]
-        for i in range(norm_15):
-            child = copy_genome(random.choice(best_10))
-            #pprint(child)
+
+        # taking 20% of best species
+        best_20 = members[-int(mem_size * 0.2):]
+        for i in range(norm_25):
+            # child = copy_genome(random.choice(best_10))
+            child = copy_genome(random.choice(best_20))
+            # pprint(child)
             mutate(child)
             new_pop.append(child)
 
         # 60% of the new population is from same species mating
-        for i in range(norm_size):
+        # for i in range(norm_size):
+        for i in range(norm_50):
             dad = random.choice(members)
             mom = random.choice(members)
             child = crossover(dad, mom)
@@ -514,6 +547,7 @@ def calc_DEW(g1, g2):
     disjoint = len([x for x in non_matching if x <= excess_marker])
     return disjoint, excess, avg_wt
 
+
 def delta_fn(g1, g2):
     c1 = 1.0
     c2 = 1.0
@@ -521,7 +555,7 @@ def delta_fn(g1, g2):
     N = max(len(g1['genes']), len(g2['genes']))
     N = 1 if N < 20 else N
     d, e, w = calc_DEW(g1, g2)
-    delta = (c2 * d + c1 * e)/N + c3 * w
+    delta = (c2 * d + c1 * e) / N + c3 * w
     return delta
 
 
@@ -540,10 +574,10 @@ def speciate(new_pop, species):
                 break
         else:
             next_sp_id = max(species.keys(), key=int)
-            species[next_sp_id+1] = { 'members': [g],
-                                        'rep': g,
-                                        'stag_count': 0,
-                                        'prev_fitness': sys.float_info.min }
+            species[next_sp_id + 1] = {'members': [g],
+                                       'rep': g,
+                                       'stag_count': 0,
+                                       'prev_fitness': sys.float_info.min}
 
     # kill empty species and convert to a list
     empty = []
@@ -566,43 +600,46 @@ def print_fittest(species, verbose=False, compact=False, file=sys.stdout):
     for sp in species.values():
         members = sp['members']
         fittest.append(max([x for x in members], key=lambda x: x['fitness']))
-    fit = max([x for x in fittest], key= lambda x: x['fitness'])
+    fit = max([x for x in fittest], key=lambda x: x['fitness'])
 
     if verbose:
         print("Fitness: {:.03f}, Genes: {}, Neurons: {}".format(fit['fitness'], len(fit['genes']), len(fit['neurons'])))
         print("Species len: {}".format(len(species)))
-    print("Fitness: {:.03f}, Genes: {}, Neurons: {}".format(fit['fitness'], len(fit['genes']), len(fit['neurons'])), file=file)
+    print("Fitness: {:.03f}, Genes: {}, Neurons: {}".format(fit['fitness'], len(fit['genes']), len(fit['neurons'])),
+          file=file)
     print("Species len: {}".format(len(species)), file=file)
 
-#    if not compact:
-#        nw = generate_network(fit)
-#        for xi, xo in zip(xor_inputs, xor_outputs):
-#            output = nw(xi)
-#            print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output), file=file)
+    #    if not compact:
+    #        nw = generate_network(fit)
+    #        for xi, xo in zip(xor_inputs, xor_outputs):
+    #            output = nw(xi)
+    #            print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output), file=file)
     return fit
 
 
 def main(fitness, gen_size=100, pop_size=150, verbose=False, fitness_thresh=None, save=None):
-
     if save is True:
-        species = pickle.load(open('save.p', 'rb'))
+
+        # species = pickle.load(open('save.p', 'r'))
+        species = None
+        with open(save_file, 'rb') as input:
+            species = pickle.load(input)
         pop = []
         print("Save file loaded.")
-        print(species)
     else:
         pop = create_population(pop_size)
-        print("Initialized population")
         fitness(pop)
         yield pop
-        species = { 0: { 'members': pop,
-                          'rep': pop[0],
-                          'stag_count': 0,
-                          'prev_fitness': sys.float_info.min } }
+        species = {0: {'members': pop,
+                       'rep': pop[0],
+                       'stag_count': 0,
+                       'prev_fitness': sys.float_info.min}}
 
     slen = []
 
     fp = open('log.txt', 'w')
     for gen in range(gen_size):
+        print("===================================================================================")
         sys.stdout.write("Generation {}\r".format(gen))
 
         # primary loop for generations
@@ -630,38 +667,39 @@ def main(fitness, gen_size=100, pop_size=150, verbose=False, fitness_thresh=None
         if fitness_thresh and abs(fittest['fitness']) > fitness_thresh:
             print("Fitness threshold reached")
             break
-        pickle.dump(species, open('save.p', 'wb'))
+        pickle.dump(species, open(save_file, 'wb'))
 
     fp.close()
     fit = print_fittest(species)
+    print("Generation {}\r".format(gen))
     print("+===========+FITTEST SURVIOR+=============+")
     pprint(fit)
     yield fit
-    #setlen = set(slen)
-    #pprint([(i, slen.count(i)) for i in setlen])
+    # setlen = set(slen)
+    # pprint([(i, slen.count(i)) for i in setlen])
 
 
 def cli():
     parser = argparse.ArgumentParser(
-            description='neat.py - My personal implementation of NEAT',
-            formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description='neatlite.py - My personal implementation of NEAT',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-g',
-            '--generations',
-            dest='generations',
-            type=int,
-            default=100,
-            help='Number of generations')
+                        '--generations',
+                        dest='generations',
+                        type=int,
+                        default=100,
+                        help='Number of generations')
     parser.add_argument('-p',
-            '--population',
-            dest='population',
-            type=int,
-            default=150,
-            help='Population size')
+                        '--population',
+                        dest='population',
+                        type=int,
+                        default=150,
+                        help='Population size')
     parser.add_argument('-v',
-            '--verbose',
-            dest='verbose',
-            action='store_true',
-            help='Prints some information to stdout')
+                        '--verbose',
+                        dest='verbose',
+                        action='store_true',
+                        help='Prints some information to stdout')
     args = parser.parse_args()
     main(args.generations, args.population, args.verbose)
 

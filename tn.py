@@ -66,17 +66,12 @@ def fitness(pop):
     for g in pop:
         g['fitness'] = 0
         nw_activate = neatlite.generate_network(g)
-        # for xi, xo in zip(xor_inputs, xor_outputs):
-        #     output = nw_activate(xi)
-        #     g['fitness'] -= (output[0] - xo[0]) ** 2
-
         predictions = []
         for input in inputs:
             output_pred = nw_activate(input)
             predictions.append(output_pred)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
             # print(output_pred)
-
         g['fitness']  = 0 - sklearn.metrics.mean_squared_error(outputs, predictions)
         # f = open('fitness.txt', 'w')
         # f.write(str(fitness) + "\n")
@@ -88,7 +83,7 @@ def fitness(pop):
 
 
 
-nn = neatlite.main(fitness=fitness, gen_size=10000, pop_size=10, verbose=True, fitness_thresh=10000,save=False)
+nn = neatlite.main(fitness=fitness, gen_size=1000, pop_size=10, verbose=True, fitness_thresh=10000,save=False)
 fit = None
 
 while True:
