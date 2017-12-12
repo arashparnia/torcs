@@ -1,13 +1,14 @@
 """
 2-input XOR example -- this is most likely the simplest possible example.
 """
-
-from __future__ import print_function
+import pickle as pickle
+# from __future__ import print_function
 
 import copy
 import os
 
 import pandas as pd
+from pureples.shared.visualize import draw_net
 
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -27,34 +28,44 @@ mypath = './train_data/'
 
 data1 = pd.read_csv( mypath + datafile1 , index_col=False)
 data2 = pd.read_csv( mypath + datafile2, index_col=False)
-data3 = pd.read_csv( mypath + datafile3, index_col=False)
+# data3 = pd.read_csv( mypath + datafile3, index_col=False)
 
-data = pd.concat([data1,data2,data3])
-
+data = pd.concat([data1,data2])
+# data = data1
 
 
 # data = data1
 # data  = data.fillna(data.,axis=0,inplace=False)
 
-print(data.shape)
+# print(data.shape)
 data.dropna(axis=0,inplace=True)
-print(data.shape)
+# print(data.shape)
 
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
 
 # Y = d1[['ACCELERATION','BRAKE','STEERING']]
-X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-Y = data[['STEERING']]
+# X = d2[[ 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
+# Y = data[['SPEED']]
 # X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
+Y = pd.DataFrame(d1[['ACCELERATION','BRAKE']])
+X = pd.DataFrame(d2[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1' , 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']])
 
+
+X['TRACK_EDGE_9_8'] = abs(d2.TRACK_EDGE_9 - d2.TRACK_EDGE_8)
+X['TRACK_EDGE_9_10'] = abs(d2.TRACK_EDGE_9 -  d2.TRACK_EDGE_10)
+
+
+# print(X)
+# X[['TRACK_EDGE_9_8']] = abs(d2[['TRACK_EDGE_9']] - d2[['TRACK_EDGE_8']])
+# X[['TRACK_EDGE_9_10'] = abs(d2[['TRACK_EDGE_9']] - d2[['TRACK_EDGE_10']])
 from sklearn import preprocessing
 
 
 X = (X - X.mean()) / (X.max() - X.min())
 
-
+# Y = (Y - Y.mean()) / (Y.max() - Y.min())
 # x = X.values #returns a numpy array
 # min_max_scaler = preprocessing.MinMaxScaler()
 # # x_scaled = min_max_scaler.fit_transform(x)
@@ -108,9 +119,9 @@ def eval_genomes(genomes, config):
             output_pred = net.activate(input)
             predictions.append(output_pred)
 
-            s+=1
-            if s % 10000 == 0:
-                print("Predicted: " , output_pred,"      Real: ",output_real)
+            # s+=1
+            # if s % 10000 == 0:
+            #     print("Predicted: " , output_pred,"      Real: ",output_real)
             # genome.fitness += (  abs(output_real[0] - output_pred[0])  )
 
 
@@ -151,7 +162,7 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(0))
 
     # Run for up to 300 generations.
-    winner = p.run(eval_genomes, 10000)
+    winner = p.run(eval_genomes, 150)
 
     # import gzip
     #
@@ -173,20 +184,25 @@ def run(config_file):
     # winner = load_object("neat.pkl")
 
     # Display the winning genome.
-    print('\nBest genome:\n{!s}'.format(winner))
+    # print('\nBest genome:\n{!s}'.format(winner))
 
     # Show output of the most fit genome against training data.
     print('\nOutput:')
     winner_net = neat.nn.RecurrentNetwork.create(winner, config)
-    for i, o in zip(inputs, outputs):
-        output = winner_net.activate(i)
-        # print("input {!r}, expected output {!r}, got {!r}".format(i, o, output))
-        print("expected output {!r}, got {!r}".format( o, output))
+    draw_net(winner_net, filename="neat_torcs_winner_steering")
+    with open('neat_torcs_steering.pkl', 'wb') as output:
+        pickle.dump(winner_net, output, pickle.HIGHEST_PROTOCOL)
 
-    node_names = {0:'Acc', 1: 'Brk', 2:'Str'}
-    visualize.draw_net(config, winner, True, node_names=node_names)
-    visualize.plot_stats(stats, ylog=True, view=True)
-    visualize.plot_species(stats, view=True)
+
+        # for i, o in zip(inputs, outputs):
+    #     output = winner_net.activate(i)
+    #     # print("input {!r}, expected output {!r}, got {!r}".format(i, o, output))
+    #     print("expected output {!r}, got {!r}".format( o, output))
+
+    # node_names = {0:'Acc', 1: 'Brk', 2:'Str'}
+    # visualize.draw_net(config, winner, True, node_names=node_names)
+    # visualize.plot_stats(stats, ylog=True, view=True)
+    # visualize.plot_species(stats, view=True)
 
 
     # p.run(eval_genomes, 1)

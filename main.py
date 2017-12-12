@@ -42,9 +42,9 @@ data  = data.fillna(data.interpolate(),axis=0,inplace=False)
 d1 = copy.deepcopy(data)
 d2 = copy.deepcopy(data)
 
-Y = d1[['ACCELERATION','BRAKE','STEERING']]
+# Y = d1[['ACCELERATION','BRAKE','STEERING']]
 # X = d2[['SPEED', 'TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
-# Y = data[['BRAKE']]
+Y = data[['ACCELERATION']]
 X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRACK_EDGE_1', 'TRACK_EDGE_2', 'TRACK_EDGE_3', 'TRACK_EDGE_4', 'TRACK_EDGE_5', 'TRACK_EDGE_6', 'TRACK_EDGE_7', 'TRACK_EDGE_8', 'TRACK_EDGE_9', 'TRACK_EDGE_10', 'TRACK_EDGE_11', 'TRACK_EDGE_12', 'TRACK_EDGE_13', 'TRACK_EDGE_14', 'TRACK_EDGE_15', 'TRACK_EDGE_16', 'TRACK_EDGE_17', 'TRACK_EDGE_18']]
 
 
@@ -52,7 +52,7 @@ X = data[['SPEED','TRACK_POSITION', 'ANGLE_TO_TRACK_AXIS', 'TRACK_EDGE_0', 'TRAC
 X = X.values.tolist()
 Y = Y.values.tolist()
 
-X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
+# X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_state= 42)
 # print(list(train_y))
 
 # from sklearn.preprocessing import StandardScaler
@@ -100,17 +100,17 @@ X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.0,random_st
 #               optimizer='sgd', metrics=['accuracy'])
 
 
-max_features = 1000
-batch_size = 32
-maxlen = 10
+# max_features = 1000
+# batch_size = 32
+# maxlen = 10
 
 # x_train = sequence.pad_sequences(X_train, maxlen=maxlen)
 # x_test = sequence.pad_sequences(X_test, maxlen=maxlen)
 
-X_train = np.asarray(X_train)
-X_test = np.asarray(X_test)
-Y_train = np.asarray(Y_train)
-Y_test = np.asarray(Y_test)
+# X_train = np.asarray(X_train)
+# X_test = np.asarray(X_test)
+# Y_train = np.asarray(Y_train)
+# Y_test = np.asarray(Y_test)
 
 #
 # print(len(X_train), 'train sequences')
@@ -138,10 +138,10 @@ Y_test = np.asarray(Y_test)
 #
 #
 #
-# clf = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(5, 100), random_state=42,verbose = False,warm_start=False,learning_rate='adaptive',activation='tanh')
-# #
-# # # clf = linear_model.LinearRegression()
-# clf.fit(X_train,Y_train )
+clf = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(5, 100), random_state=42,verbose = False,warm_start=False,learning_rate='adaptive',activation='tanh')
+#
+# clf = linear_model.LinearRegression()
+clf.fit(X,Y )
 #
 # scoring = "neg_mean_absolute_error"
 # kfold = model_selection.KFold(n_splits=10,random_state=42)
@@ -149,10 +149,12 @@ Y_test = np.asarray(Y_test)
 # print("-----------------------------")
 # print(results.mean(),results.std())
 #
-# joblib.dump(clf, 'nnmodel_brk.pkl')
-#
-#
-# pred_y =  clf.predict(X_test)
+joblib.dump(clf, 'nnmodel_acc.pkl')
+
+pred_y =  clf.predict(X)
+for p in pred_y:
+    print(p)
+print(pred_y)
 #
 # pred_y = pd.DataFrame(pred_y)
 # print(pred_y.head())
