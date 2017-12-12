@@ -144,6 +144,7 @@ X.SPEED = [(max(0, min(x, 200)) / 100) - 1 for x in X.SPEED]
 
 value = lambda x: (max(min(x / 2, 1), -1))
 X['TRACK_POSITION'] = X['TRACK_POSITION'].apply(value)
+#
 
 value1 = lambda x: ((x + 1) / 100.5) - 1
 X.TRACK_EDGE_0 = X['TRACK_EDGE_0'].apply(value1)
