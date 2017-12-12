@@ -1,65 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98e4ad19-e7cd-48b8-ace2-d9a9d9dd0272" name="Default" comment="steering file">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/neat_torcs_winner_brake.pkl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/neat_mountain_car_winner.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/neat_mountain_car_winner.pkl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/es_hyperneat/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/es_hyperneat/es_hyperneat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/config_cppn_mountain_car" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/config_neat_mountain_car" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/es_hyperneat_mountain_car_large.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/es_hyperneat_mountain_car_medium.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/es_hyperneat_mountain_car_small.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/hyperneat_mountain_car.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/neat_mountain_car.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/neat_mountain_car_winner" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/mountain_car/run_all_mountain_car.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/config_cppn_pole_balancing" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/config_neat_pole_balancing" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/es_hyperneat_pole_balancing_large.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/es_hyperneat_pole_balancing_medium.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/es_hyperneat_pole_balancing_small.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/hyperneat_pole_balancing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/neat_pole_balancing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/pole_balancing/run_all_pole_balancing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/config_cppn_xor" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/config_neat_xor" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/es_hyperneat_xor_large.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/es_hyperneat_xor_medium.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/es_hyperneat_xor_small.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/hyperneat_xor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/neat_xor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/experiments/xor/run_all_xor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/hyperneat/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/hyperneat/hyperneat.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/gym_runner.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/substrate.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/test_cppn.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/torcs_runner.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pureples-master/pureples/shared/visualize.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/visualize_network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nnmodel_acc.pkl" afterPath="$PROJECT_DIR$/nnmodel_acc.pkl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nnmodel_brk.pkl" afterPath="$PROJECT_DIR$/nnmodel_brk.pkl" />
+    <list default="true" id="98e4ad19-e7cd-48b8-ace2-d9a9d9dd0272" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config2" afterPath="$PROJECT_DIR$/config2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config_cppn_neat" afterPath="$PROJECT_DIR$/config_cppn_neat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experiment6.py" afterPath="$PROJECT_DIR$/experiment6.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/my_driver.py" afterPath="$PROJECT_DIR$/my_driver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nn.py" afterPath="$PROJECT_DIR$/nn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pureples/es_hyperneat/es_hyperneat.py" afterPath="$PROJECT_DIR$/pureples/es_hyperneat/es_hyperneat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pureples/shared/visualize.py" afterPath="$PROJECT_DIR$/pureples/shared/visualize.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rnn.py" afterPath="$PROJECT_DIR$/rnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_data/aalborg.csv" afterPath="$PROJECT_DIR$/train_data/aalborg.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_data/alpine-1.csv" afterPath="$PROJECT_DIR$/train_data/alpine-1.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -969,7 +912,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511967436728</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="steering and brake files">
+      <created>1513067085095</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1513067085095</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1075,7 +1025,8 @@
     <MESSAGE value="config2" />
     <MESSAGE value="experiment 3 is now using the correct neat impelemtation" />
     <MESSAGE value="neat steering output only" />
-    <option name="LAST_COMMIT_MESSAGE" value="neat steering output only" />
+    <MESSAGE value="steering and brake files" />
+    <option name="LAST_COMMIT_MESSAGE" value="steering and brake files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
